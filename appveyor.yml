@@ -12,8 +12,9 @@ build:
   verbosity: minimal
 notifications:
 - provider: Slack
+  incoming_webhook: https://hooks.slack.com/services/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
   auth_token:
-    secure: qg2ofxlPROE+GlE1fefmG1drMuV/y2dGxHUwPLuAyaXF9u0NJC8uF+7hUHeaxFgYd/zft4rRFOTAV0amZo8cLA==
+    secure: hDS4v/d2PaQhhyTJVBj9Qg==
   channel: Build
   on_build_success: true
   on_build_failure: true
