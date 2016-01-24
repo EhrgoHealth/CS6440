@@ -3,10 +3,18 @@ configuration: Release
 nuget:
   account_feed: true
   project_feed: true
+before_build:
+- cmd: nuget restore
 build:
   publish_wap: true
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: minimal
-before_build:
-- cmd: nuget restore
+notifications:
+- provider: Slack
+  auth_token:
+    secure: qg2ofxlPROE+GlE1fefmG1drMuV/y2dGxHUwPLuAyaXF9u0NJC8uF+7hUHeaxFgYd/zft4rRFOTAV0amZo8cLA==
+  channel: Build
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
