@@ -1,9 +1,9 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using Microsoft.AspNet.Identity.Owin;
 using EhrgoHealth.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace EhrgoHealth.Web.Controllers
 {
@@ -32,7 +32,6 @@ namespace EhrgoHealth.Web.Controllers
 
             base.Dispose(disposing);
         }
-        
 
         protected IAuthenticationManager AuthenticationManager
         {
@@ -69,7 +68,6 @@ namespace EhrgoHealth.Web.Controllers
             return false;
         }
 
-
         protected ApplicationUser CurrentUserIdentity()
         {
             return UserManager.FindById(User.Identity.GetUserId());
@@ -98,7 +96,5 @@ namespace EhrgoHealth.Web.Controllers
                 _userManager = value;
             }
         }
-
-    
     }
 }

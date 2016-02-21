@@ -7,6 +7,7 @@ namespace EhrgoHealth.Web.MVCActionResults
     internal class ChallengeResult : HttpUnauthorizedResult
     {
         internal const string XsrfKey = "XsrfId";
+
         public ChallengeResult(string provider, string redirectUri)
             : this(provider, redirectUri, null)
         {
