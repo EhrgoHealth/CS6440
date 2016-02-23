@@ -9,37 +9,14 @@ namespace EhrgoHealth.Web.Controllers
 {
     public abstract class AuthorizationBaseController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private ApplicationUserManager UserManager { get; set; }
+
+        protected AuthorizationBaseController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+
         // GET: AuthorizationBase
-
-        protected override void Dispose(bool disposing)
-        {
-            if(disposing)
-            {
-                if(_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
-
-                if(_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
-            }
-
-            base.Dispose(disposing);
-        }
-
-        protected IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
 
         protected void AddErrors(IdentityResult result)
         {
@@ -71,30 +48,6 @@ namespace EhrgoHealth.Web.Controllers
         protected ApplicationUser CurrentUserIdentity()
         {
             return UserManager.FindById(User.Identity.GetUserId());
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
         }
     }
 }
