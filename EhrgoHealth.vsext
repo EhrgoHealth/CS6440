@@ -1,0 +1,48 @@
+﻿{
+  "extensions": {
+    "optional": [
+      {
+        "name": "Web Essentials 2015.1",
+        "productId": "5fb7364d-2e8c-44a4-95eb-2a382e30fec9",
+        "link": "http://vswebessentials.com/",
+        "description": "Good for web dev"
+      },
+      {
+        "name": "Refactoring Essentials for Visual Studio",
+        "productId": "NR6Pack.Refactorings.Vsix..cd27e59b-5c56-4238-8931-c9bb745a7a7f",
+        "link": "https://github.com/icsharpcode/RefactoringEssentials/wiki/Release-3.2",
+        "description": "Free refactorings for C# and Visual Basic (VB) - plus more!"
+      },
+      {
+        "name": "Code Cracker for C#",
+        "productId": "CodeCracker.Vsix..5b99e64c-1418-4a06-990c-fd4cf01f4f63",
+        "link": "http://code-cracker.github.io/",
+        "description": "An analyzer library for C# that uses Roslyn to produce refactorings, code analysis, and other niceties.\nCheck the official project site on code-cracker.github.io.\nBuild status Nuget count Nuget downloads Issues open\nThis is a community project, free and open source. Everyone is invited to contribute, fork, share and use the code. No money shall be charged by this software, nor it will be. Ever."
+      },
+      {
+        "name": "xUnit.net Test Extensions",
+        "productId": "vstestextensions.xunit.e1d3ffb9-595d-4b29-8038-fdd1f2a8f16c",
+        "link": "https://github.com/xunit/testextensions.xunit",
+        "description": "Test Extensions for xUnit.net test generation, for Visual Studio 2015 (or later)"
+      },
+      {
+        "name": "Productivity Power Tools 2015",
+        "productId": "VSProPack.Microsoft.15893CD4-2422-4427-BEA8-4E28DCC26346",
+        "link": "http://go.microsoft.com/fwlink/p/?LinkID=618589",
+        "description": "A set of extensions to Visual Studio 2015 Community (and above) which improves developer productivity."
+      },
+      {
+        "name": "CodeMaid",
+        "productId": "4c82e17d-927e-42d2-8460-b473ac7df316",
+        "link": "http://www.codemaid.net/",
+        "description": "CodeMaid is an open source Visual Studio extension to cleanup, dig through and simplify our C#, C++, F#, VB, PHP, PowerShell, JSON, XAML, XML, ASP, HTML, CSS, LESS, SCSS, JavaScript and TypeScript coding."
+      },
+      {
+        "name": "Web Compiler",
+        "productId": "148ffa77-d70a-407f-892b-9ee542346862",
+        "link": "https://github.com/madskristensen/WebCompiler",
+        "description": "The easiest and most powerful way to compile LESS, Scss, Stylus, JSX and CoffeeScript files directly within Visual Studio or through MSBuild."
+      }
+    ]
+  }
+}
