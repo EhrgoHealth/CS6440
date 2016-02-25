@@ -12,8 +12,16 @@ namespace EhrgoHealth.Web.Controllers
     [Authorize]
     public class AccountController : AuthorizationBaseController
     {
-        public AccountController()
+        public ApplicationSignInManager SignInManager { get; set; }
+        public ApplicationUserManager UserManager { get; set; }
+        public IAuthenticationManager AuthenticationManager { get; set; }
+
+        public AccountController(ApplicationSignInManager signinManager, ApplicationUserManager appUserManager, IAuthenticationManager authenticationManager)
+            : base(appUserManager)
         {
+            AuthenticationManager = authenticationManager;
+            UserManager = appUserManager;
+            SignInManager = signinManager;
         }
 
         //
