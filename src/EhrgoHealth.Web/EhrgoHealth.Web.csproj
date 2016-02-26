@@ -233,6 +233,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\DatabaseBootstrap.cs" />
+    <Compile Include="Areas\Patient\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Patient\Controllers\PatientBaseController.cs" />
+    <Compile Include="Areas\Patient\Controllers\RegisterController.cs" />
+    <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
+    <Compile Include="Areas\Staff\Controllers\RegisterController.cs" />
+    <Compile Include="Areas\Staff\Controllers\StaffBaseController.cs" />
+    <Compile Include="Controllers\RegisterBaseController.cs" />
+    <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
+    <Compile Include="Models\ApplicationRoleManager.cs" />
     <Compile Include="MVCActionResults\ChallengeResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -267,6 +277,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Areas\Patient\Views\web.config" />
+    <Content Include="Areas\Staff\Views\web.config" />
+    <Content Include="Areas\Patient\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Patient\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
@@ -304,7 +319,7 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Shared\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -320,6 +335,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Patient\Models\" />
+    <Folder Include="Areas\Patient\Views\PatientBase\" />
+    <Folder Include="Areas\Staff\Models\" />
+    <Folder Include="Areas\Staff\Views\Register\" />
+    <Folder Include="Areas\Staff\Views\Shared\" />
+    <Folder Include="Areas\Staff\Views\StaffBase\" />
     <Folder Include="Views\AuthorizationBase\" />
   </ItemGroup>
   <ItemGroup>
