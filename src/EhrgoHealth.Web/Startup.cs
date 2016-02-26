@@ -24,25 +24,34 @@ namespace EhrgoHealth.Web
                 var context = a.Resolve<HttpContextBase>();
                 if(context != null)
                 {
-                    return context.GetOwinContext().Get<ApplicationSignInManager>();
+                    return context.GetOwinContext();
                 }
                 return null;
             });
             builder.Register((a) =>
             {
-                var context = a.Resolve<HttpContextBase>();
+                var context = a.Resolve<IOwinContext>();
                 if(context != null)
                 {
-                    return context.GetOwinContext().Get<ApplicationUserManager>();
+                    return context.Get<ApplicationSignInManager>();
                 }
                 return null;
             });
             builder.Register((a) =>
             {
-                var context = a.Resolve<HttpContextBase>();
+                var context = a.Resolve<IOwinContext>();
                 if(context != null)
                 {
-                    return context.GetOwinContext().Authentication;
+                    return context.Get<ApplicationUserManager>();
+                }
+                return null;
+            });
+            builder.Register((a) =>
+            {
+                var context = a.Resolve<IOwinContext>();
+                if(context != null)
+                {
+                    return context.Authentication;
                 }
                 return null;
             });
