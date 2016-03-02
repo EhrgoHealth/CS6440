@@ -97,6 +97,11 @@ namespace EhrgoHealth.Web
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
 
+        public override Task SignInAsync(ApplicationUser user, bool isPersistent, bool rememberBrowser)
+        {
+            return base.SignInAsync(user, isPersistent, rememberBrowser);
+        }
+
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);

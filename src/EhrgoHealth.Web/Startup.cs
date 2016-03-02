@@ -3,6 +3,8 @@ using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using EhrgoHealth.Web.App_Start;
+using EhrgoHealth.Web.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Owin;
@@ -51,16 +53,28 @@ namespace EhrgoHealth.Web
                 var context = a.Resolve<IOwinContext>();
                 if(context != null)
                 {
+                    return context.Get<ApplicationRoleManager>();
+                }
+                return null;
+            });
+
+            builder.Register((a) =>
+            {
+                var context = a.Resolve<IOwinContext>();
+                if(context != null)
+                {
                     return context.Authentication;
                 }
                 return null;
             });
+            builder.RegisterType<ApplicationDbContext>();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-
+            var db = container.Resolve<ApplicationDbContext>();
             app.UseAutofacMiddleware(container);
             app.UseAutofacMvc();
             ConfigureAuth(app);
+            DatabaseBootstrap.Bootstrap(db);
         }
     }
 }

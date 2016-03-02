@@ -37,6 +37,7 @@ namespace EhrgoHealth.Web.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var claims = UserManager.GetRoles(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
