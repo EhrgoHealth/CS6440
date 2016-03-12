@@ -282,6 +282,7 @@
     <Content Include="Areas\Patient\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Patient\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Patient\Views\Home\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
