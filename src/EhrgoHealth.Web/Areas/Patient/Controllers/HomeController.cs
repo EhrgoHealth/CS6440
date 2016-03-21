@@ -10,13 +10,11 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
 {
     public class HomeController : PatientBaseController
     {
-        private readonly FitbitClient fitbitClient;
         private readonly ApplicationUserManager userManager;
 
         public HomeController(ApplicationUserManager userManager)
         {
             this.userManager = userManager;
-            this.fitbitClient = fitbitClient;
         }
 
         public ActionResult Index()
