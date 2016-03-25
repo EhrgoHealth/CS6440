@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Fitbit.Api.Portable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,7 +17,6 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             this.userManager = userManager;
         }
 
-        [Authorize(Roles = "Patient")]
         public ActionResult Index()
         {
             var user = this.User.Identity;

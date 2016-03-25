@@ -1,17 +1,20 @@
-﻿using System;
-using EhrgoHealth.Web.Models;
+﻿using EhrgoHealth.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using Owin.Security.Providers.Fitbit;
+using Owin.Security.Providers.Fitbit.Provider;
+using System;
+using System.Threading.Tasks;
 
 namespace EhrgoHealth.Web
 {
     public partial class Startup
     {
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
-        public void ConfigureAuth(IAppBuilder app)
+        public void ConfigureAuth(IAppBuilder app, FitbitAuthenticationOptions fitbitAuthOptions)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
@@ -43,7 +46,9 @@ namespace EhrgoHealth.Web
             // Once you check this option, your second step of verification during the login process will be remembered on the device where you logged in from.
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+            //todo: probably shouldn't leave api keyes viewable to all, but I don't have time to do things properly.
 
+            app.UseFitbitAuthentication(fitbitAuthOptions);
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",

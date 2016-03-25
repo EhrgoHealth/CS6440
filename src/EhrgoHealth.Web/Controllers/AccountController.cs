@@ -1,11 +1,13 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using EhrgoHealth.Web.Models;
+﻿using EhrgoHealth.Web.Models;
 using EhrgoHealth.Web.MVCActionResults;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EhrgoHealth.Web.Controllers
 {
@@ -262,10 +264,24 @@ namespace EhrgoHealth.Web.Controllers
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
+
             if(loginInfo == null)
             {
                 return RedirectToAction("Login");
             }
+            var currentIdentity = (ClaimsIdentity)User.Identity;
+            loginInfo
+                .ExternalIdentity
+                .Claims
+                .Where(a => a.Type.StartsWith("accessToken:", System.StringComparison.OrdinalIgnoreCase))
+                .ForEach(a =>
+                 {
+                     currentIdentity
+                     .Claims
+                     .Where(b => b.Type.Equals(a.Type, StringComparison.OrdinalIgnoreCase))
+                     .ForEach(b => currentIdentity.RemoveClaim(b));
+                     currentIdentity.AddClaim(a);
+                 });
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
