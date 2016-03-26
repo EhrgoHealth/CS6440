@@ -1,4 +1,6 @@
 **[FHIR Allergy Intolerances](https://www.hl7.org/fhir/allergyintolerance.html)**
+
+
 |   |   |
 |---|---|
 |[allergy-intolerance-category](https://hl7-fhir.github.io/valueset-allergy-intolerance-category.html)s|Category of an identified Substance.|
