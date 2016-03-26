@@ -14,14 +14,9 @@ namespace EhrgoHealth.Web.App_Start
         {
             Mapper.Initialize(a =>
             {
-                a.CreateMap<NutritionalValues, Fitbit.Models.NutritionalValues>()
-              //  .ForSourceMember(ba => ba.FoodLogId, ba => ba.Ignore())
-              ;
-                a.CreateMap<Fitbit.Models.NutritionalValues, NutritionalValues>()
-              // .ForMember(ba => ba.FoodLogId, ba => ba.Ignore())
-              ;
+                a.CreateMap<NutritionalValues, Fitbit.Models.NutritionalValues>();
+                a.CreateMap<Fitbit.Models.NutritionalValues, NutritionalValues>();
             });
-            //Mapper.CreateMap<NutritionalValues, Fitbit.Models.NutritionalValues>();
         }
     }
 }
