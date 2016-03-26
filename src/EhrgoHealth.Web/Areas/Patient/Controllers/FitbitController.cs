@@ -35,12 +35,6 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             {
                 return new ChallengeResult("Fitbit", Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = Request.Url.PathAndQuery, Area = string.Empty }));
             }
-            //var context = a.Resolve<HttpContextBase>();
-            //var fitbitOptions = a.Resolve<FitbitAuthenticationOptions>();
-            //if(context.User.Identity.IsAuthenticated && (((ClaimsIdentity)context.User?.Identity)?.HasClaim(b => b.Type.Equals(Constants.FitbitClaimsToken)) ?? false))
-            //{
-            //    return new Fitbit.Api.Portable.FitbitClient(new Fitbit.Api.Portable.FitbitAppCredentials() { ClientId = fitbitOptions.ClientId, ClientSecret = fitbitOptions.ClientSecret }, new Fitbit.Api.Portable.OAuth2.OAuth2AccessToken() { Token = ((ClaimsIdentity)context.User.Identity).FindFirst(b => b.Type.Equals(Constants.FitbitClaimsToken)).Value });
-            //}
             var token = identity.Claims.First(a => a.ClaimType == Constants.FitbitClaimsToken);
             var fitbitClient = new FitbitClient(new FitbitAppCredentials() { ClientId = this.fitbitAuth.ClientId, ClientSecret = this.fitbitAuth.ClientSecret }, new Fitbit.Api.Portable.OAuth2.OAuth2AccessToken() { Token = token.ClaimValue }, false);
             var totalFoodForLast30Days = Enumerable.Range(0, 5)
