@@ -9,3 +9,4 @@
 |[FHIRDrugInteraction.md](FHIRDrugInteraction.md)|FHIR drug interaction resource|
 |[RXNav](RXNav.md)|NIH resource for drugs & interaction information (API sources)|
 |[University of Nebraska](AllergenOnline.org)|Extensive allergen database (non-drug)|
+|[WebMD - common drug allergies](http://www.webmd.com/allergies/most-common-drugs-that-cause-allergies)|List of most common drugs that cause allergic reactions|
