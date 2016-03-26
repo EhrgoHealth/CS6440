@@ -1,13 +1,13 @@
-﻿using EhrgoHealth.Web.Models;
-using EhrgoHealth.Web.MVCActionResults;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using EhrgoHealth.Web.Models;
+using EhrgoHealth.Web.MVCActionResults;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace EhrgoHealth.Web.Controllers
 {
@@ -269,22 +269,27 @@ namespace EhrgoHealth.Web.Controllers
             {
                 return RedirectToAction("Login");
             }
-            var currentIdentity = (ClaimsIdentity)User.Identity;
-            loginInfo
+            var currentUser = this.CurrentUserIdentity();
+            if(currentUser != null)
+            {
+                loginInfo
                 .ExternalIdentity
                 .Claims
                 .Where(a => a.Type.StartsWith("accessToken:", System.StringComparison.OrdinalIgnoreCase))
                 .ForEach(a =>
-                 {
-                     currentIdentity
-                     .Claims
-                     .Where(b => b.Type.Equals(a.Type, StringComparison.OrdinalIgnoreCase))
-                     .ForEach(b => currentIdentity.RemoveClaim(b));
-                     currentIdentity.AddClaim(a);
-                 });
+                {
+                    currentUser
+                                .Claims
+                                .Where(b => b.ClaimType.Equals(a.Type, StringComparison.OrdinalIgnoreCase))
+                                //todo make async
+                                .Select(b => UserManager.RemoveClaim(currentUser.Id, new Claim(b.ClaimType, b.ClaimValue)));
+                    UserManager.AddClaim(currentUser.Id, new Claim(a.Type, a.Value));
+                });
+            }
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+
             switch(result)
             {
                 case SignInStatus.Success:

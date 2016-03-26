@@ -1,4 +1,9 @@
-﻿using Autofac;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Autofac;
 using Autofac.Integration.Mvc;
 using EhrgoHealth.Web.App_Start;
 using EhrgoHealth.Web.Models;
@@ -7,11 +12,6 @@ using Microsoft.Owin;
 using Owin;
 using Owin.Security.Providers.Fitbit;
 using Owin.Security.Providers.Fitbit.Provider;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 
 [assembly: OwinStartupAttribute(typeof(EhrgoHealth.Web.Startup))]
 
@@ -28,7 +28,7 @@ namespace EhrgoHealth.Web
             builder.Register((a) =>
             {
                 var context = a.Resolve<HttpContextBase>();
-                if (context != null)
+                if(context != null)
                 {
                     return context.GetOwinContext();
                 }
@@ -37,7 +37,7 @@ namespace EhrgoHealth.Web
             builder.Register((a) =>
             {
                 var context = a.Resolve<IOwinContext>();
-                if (context != null)
+                if(context != null)
                 {
                     return context.Get<ApplicationSignInManager>();
                 }
@@ -46,7 +46,7 @@ namespace EhrgoHealth.Web
             builder.Register((a) =>
             {
                 var context = a.Resolve<IOwinContext>();
-                if (context != null)
+                if(context != null)
                 {
                     return context.Get<ApplicationUserManager>();
                 }
@@ -55,7 +55,7 @@ namespace EhrgoHealth.Web
             builder.Register((a) =>
             {
                 var context = a.Resolve<IOwinContext>();
-                if (context != null)
+                if(context != null)
                 {
                     return context.Get<ApplicationRoleManager>();
                 }
@@ -65,7 +65,7 @@ namespace EhrgoHealth.Web
             builder.Register((a) =>
             {
                 var context = a.Resolve<IOwinContext>();
-                if (context != null)
+                if(context != null)
                 {
                     return context.Authentication;
                 }
@@ -90,16 +90,16 @@ namespace EhrgoHealth.Web
                 };
                 return options;
             });
-            builder.Register(a =>
-            {
-                var context = a.Resolve<HttpContextBase>();
-                var fitbitOptions = a.Resolve<FitbitAuthenticationOptions>();
-                if (context.User.Identity.IsAuthenticated && (((ClaimsIdentity)context.User?.Identity)?.HasClaim(b => b.Type.Equals(Constants.FitbitClaimsToken)) ?? false))
-                {
-                    return new Fitbit.Api.Portable.FitbitClient(new Fitbit.Api.Portable.FitbitAppCredentials() { ClientId = fitbitOptions.ClientId, ClientSecret = fitbitOptions.ClientSecret }, new Fitbit.Api.Portable.OAuth2.OAuth2AccessToken() { Token = ((ClaimsIdentity)context.User.Identity).FindFirst(b => b.Type.Equals(Constants.FitbitClaimsToken)).Value });
-                }
-                return null;
-            }).InstancePerRequest();
+            //builder.Register(a =>
+            //{
+            //    var context = a.Resolve<HttpContextBase>();
+            //    var fitbitOptions = a.Resolve<FitbitAuthenticationOptions>();
+            //    if (context.User.Identity.IsAuthenticated && (((ClaimsIdentity)context.User?.Identity)?.HasClaim(b => b.Type.Equals(Constants.FitbitClaimsToken)) ?? false))
+            //    {
+            //        return new Fitbit.Api.Portable.FitbitClient(new Fitbit.Api.Portable.FitbitAppCredentials() { ClientId = fitbitOptions.ClientId, ClientSecret = fitbitOptions.ClientSecret }, new Fitbit.Api.Portable.OAuth2.OAuth2AccessToken() { Token = ((ClaimsIdentity)context.User.Identity).FindFirst(b => b.Type.Equals(Constants.FitbitClaimsToken)).Value });
+            //    }
+            //    return null;
+            //}).InstancePerRequest();
             builder.RegisterType<ApplicationDbContext>();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
