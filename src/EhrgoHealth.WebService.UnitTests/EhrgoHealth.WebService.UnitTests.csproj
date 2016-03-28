@@ -61,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\EhrgoHealth.WebService\EhrgoHealth.WebService.csproj">
+    <ProjectReference Include="..\EhrgoHealth.WebService\EhrgoHealth.WebService.csproj">
       <Project>{235c95ac-08c8-427e-b7ab-f5989a693cc4}</Project>
       <Name>EhrgoHealth.WebService</Name>
     </ProjectReference>
