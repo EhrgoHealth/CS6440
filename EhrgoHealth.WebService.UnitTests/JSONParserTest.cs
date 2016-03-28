@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using System.Linq;
 
 namespace EhrgoHealth.WebService.UnitTests
 {

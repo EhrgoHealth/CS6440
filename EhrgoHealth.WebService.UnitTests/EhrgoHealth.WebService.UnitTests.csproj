@@ -67,6 +67,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AllergyIntolerance.json" />
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Patient.json" />
