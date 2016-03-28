@@ -1,10 +1,12 @@
-﻿using Fitbit.Api.Portable;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using EhrgoHealth.Data;
+using Fitbit.Api.Portable;
+using Microsoft.AspNet.Identity;
 
 namespace EhrgoHealth.Web.Areas.Patient.Controllers
 {
@@ -20,6 +22,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
         public ActionResult Index()
         {
             var user = this.User.Identity;
+
             return View();
         }
     }
