@@ -44,9 +44,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             var fitbitClient = new FitbitClient(new FitbitAppCredentials() { ClientId = this.fitbitAuth.ClientId, ClientSecret = this.fitbitAuth.ClientSecret }, new Fitbit.Api.Portable.OAuth2.OAuth2AccessToken() { Token = token.ClaimValue }, false);
             var totalFoodForRange = Enumerable.Range(0, daysSince)
                 .Select(a => DateTime.Now.AddDays(-a))
-                .Select(a =>
-                fitbitClient.GetFoodAsync(a)
-                );
+                .Select(a => fitbitClient.GetFoodAsync(a));
             var results = await Task.WhenAll(totalFoodForRange);
 
             results
