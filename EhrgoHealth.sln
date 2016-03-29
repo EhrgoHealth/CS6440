@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EhrgoHealth.WebService", "src\EhrgoHealth.WebService\EhrgoHealth.WebService.csproj", "{235C95AC-08C8-427E-B7AB-F5989A693CC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EhrgoHealth.WebService.UnitTests", "src\EhrgoHealth.WebService.UnitTests\EhrgoHealth.WebService.UnitTests.csproj", "{CC3D17C4-6577-46E2-8D1D-A8BEBDD483FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EhrgoHealth.WebService.UnitTests", "src\EhrgoHealth.WebService.UnitTests\EhrgoHealth.WebService.UnitTests.csproj", "{5A7415BE-B6F5-46B9-8C71-F61515712950}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,10 +48,10 @@ Global
 		{235C95AC-08C8-427E-B7AB-F5989A693CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{235C95AC-08C8-427E-B7AB-F5989A693CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{235C95AC-08C8-427E-B7AB-F5989A693CC4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC3D17C4-6577-46E2-8D1D-A8BEBDD483FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC3D17C4-6577-46E2-8D1D-A8BEBDD483FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC3D17C4-6577-46E2-8D1D-A8BEBDD483FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC3D17C4-6577-46E2-8D1D-A8BEBDD483FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
