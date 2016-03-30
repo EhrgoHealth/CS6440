@@ -1,77 +1,77 @@
 ﻿using System;
-using System.Linq;
 using Xunit;
-using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Newtonsoft.Json.Linq;
-using System.IO;
 using System.Collections.Generic;
 
 namespace EhrgoHealth.WebService.UnitTests
 {
     public class TestAllergyIntolerance
     {
-        JObject allergyIntoleranceJSON;
-        FhirClient fhirClient;
 
-        //XUnit uses constructor for [SetUp]
-        public TestAllergyIntolerance()
-        {          
-            allergyIntoleranceJSON = JObject.Parse(File.ReadAllText(@"..\..\AllergyIntolerance.json"));
-
-            //Test server with public data. I plan to MOQ this with controlled data later
-            //As this test will cause tests to fail if the Admin purges the data on their FHIR server
-            fhirClient = new FhirClient("http://fhirtest.uhn.ca/baseDstu2/");
-        }
-
-        //Parses our own wellformed AllergyIntolerance.json
-        //I believe this is useful for having a known-good controlled JSON file of AllergyIntolerance
-        //to easily see "real" example data compared to the abstract in the documentation.
+        //Pass in valid medication that a patient has an allergy to
         [Fact]
-        public void TestManualAllergyIntoleranceCode()
-        {            
-            var allergyCodeIterator =
-             from p in allergyIntoleranceJSON["substance"]["coding"]
-             select (string)p["code"];
-
-            Assert.Equal("Z88.5", allergyCodeIterator.First<String>());
+        public void TestIsAllergicToMedications01()
+        {
+            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            uint patientID = 6140;
+            List<string> medications = new List<string>() { "hYdRoCoDoNe" };
+            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
+            Assert.True(result);
         }
 
-        //Grabs deserializes the AllergyIntolerance resource into an object
-        //Test to make sure we can grab the allergy intolerance code.
-        //This is real data from a real FHIR server at the moment, I do plan on using MOQ
+        //Pass in medication that a patient does not have an allergy to.
         [Fact]
-        public void TestFHIRAllergyIntoleranceCode()
-        {         
-            var allergyResource = fhirClient.Read<AllergyIntolerance>("AllergyIntolerance/6140");
-            Coding coding = allergyResource.Substance.Coding.First<Coding>();
-            Assert.Equal("Z88.5", coding.Code);
+        public void TestIsAllergicToMedications02()
+        {
+            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            uint patientID = 6140;
+            List<string> medications = new List<string>() { "NotARealMedicine" };
+            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
+            Assert.False(result);
         }
 
+        //Pass in an invalid Patient ID that does not exist on the FHIR server.
+        [Fact]
+        public void TestIsAllergicToMedications03()
+        {
+            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            uint patientID = 999999;
+            List<string> medications = new List<string>() { "NotARealMedicine" };
+            FhirOperationException ex = Assert.Throws<FhirOperationException>(() => allergyIntolerance.IsAllergicToMedications(patientID, medications));
+            string expected =
+                @"Operation was unsuccessful, and returned status 404.";
+            string actual = ex.Message.Substring(0, 52);            
+            Assert.Equal(expected, actual);
+        }
+
+        //Pass in valid medication that a patient has an allergy to and expect a returned list of medication the patient
+        //is allergic to.
         [Fact]
         public void TestGetListOfMedicationAllergies01()
         {
-            //var allergyResource = fhirClient.Read<AllergyIntolerance>("AllergyIntolerance/6140");
-            //Coding coding = allergyResource.Substance.Coding.First<Coding>();
-            //Assert.Equal("Z88.5", coding.Code);
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            int patientID = 6140;
-            List<string> medications = new List<string>() {"Hydrocodone"};
-            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
-            Assert.Equal(true, result);
+            uint patientID = 6140;
+            List<string> medications = new List<string>() { "hydrocodone" };
+            List<string> result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
+
+            //We know the medication we expect to see in this list should be hydrocodone
+            //because patient is alergic
+
+            Assert.Equal("hydrocodone", result[0]);
         }
 
+        //Pass in medication that a patient is not allergic to. We should expect an empty list.
         [Fact]
         public void TestGetListOfMedicationAllergies02()
         {
-            //var allergyResource = fhirClient.Read<AllergyIntolerance>("AllergyIntolerance/6140");
-            //Coding coding = allergyResource.Substance.Coding.First<Coding>();
-            //Assert.Equal("Z88.5", coding.Code);
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            int patientID = 6140;
-            List<string> medications = new List<string>() { "zydrocodone" };
-            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
-            Assert.Equal(false, result);
+            uint patientID = 6140;
+            List<string> medications = new List<string>() { "tylenol" };
+            List<string> result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
+
+            //The patient is not allergic to tylenol and we will be given an empty list.
+
+            Assert.Equal(0,result.Count);
         }
     }
 }
