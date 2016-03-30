@@ -79,6 +79,12 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EhrgoHealth.WebService\EhrgoHealth.WebService.csproj">
+      <Project>{235c95ac-08c8-427e-b7ab-f5989a693cc4}</Project>
+      <Name>EhrgoHealth.WebService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

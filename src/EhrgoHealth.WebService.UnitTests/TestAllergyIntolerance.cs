@@ -5,7 +5,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Newtonsoft.Json.Linq;
 using System.IO;
-
+using System.Collections.Generic;
 
 namespace EhrgoHealth.WebService.UnitTests
 {
@@ -46,6 +46,32 @@ namespace EhrgoHealth.WebService.UnitTests
             var allergyResource = fhirClient.Read<AllergyIntolerance>("AllergyIntolerance/6140");
             Coding coding = allergyResource.Substance.Coding.First<Coding>();
             Assert.Equal("Z88.5", coding.Code);
+        }
+
+        [Fact]
+        public void TestGetListOfMedicationAllergies01()
+        {
+            //var allergyResource = fhirClient.Read<AllergyIntolerance>("AllergyIntolerance/6140");
+            //Coding coding = allergyResource.Substance.Coding.First<Coding>();
+            //Assert.Equal("Z88.5", coding.Code);
+            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            int patientID = 6140;
+            List<string> medications = new List<string>() {"Hydrocodone"};
+            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
+            Assert.Equal(true, result);
+        }
+
+        [Fact]
+        public void TestGetListOfMedicationAllergies02()
+        {
+            //var allergyResource = fhirClient.Read<AllergyIntolerance>("AllergyIntolerance/6140");
+            //Coding coding = allergyResource.Substance.Coding.First<Coding>();
+            //Assert.Equal("Z88.5", coding.Code);
+            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            int patientID = 6140;
+            List<string> medications = new List<string>() { "zydrocodone" };
+            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
+            Assert.Equal(false, result);
         }
     }
 }
