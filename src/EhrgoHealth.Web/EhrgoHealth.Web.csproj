@@ -303,6 +303,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\EHR_Patient.jpg" />
+    <Content Include="Content\Images\EHR_Staff.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -377,6 +379,9 @@
     <Folder Include="Areas\Staff\Views\Register\" />
     <Folder Include="Areas\Staff\Views\Shared\" />
     <Folder Include="Areas\Staff\Views\StaffBase\" />
+    <Folder Include="NewFolder1\" />
+    <Folder Include="NewFolder2\" />
+    <Folder Include="NewFolder3\" />
     <Folder Include="Views\AuthorizationBase\" />
   </ItemGroup>
   <ItemGroup>
