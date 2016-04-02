@@ -15,7 +15,7 @@ namespace EhrgoHealth.WebService.Models
 
         public AllergyIntolerance(string fhirServer)
         {
-            if (fhirServer == null || fhirServer == String.Empty)
+            if (String.IsNullOrEmpty(fhirServer))
                 throw new Exception("Invalid URL passed to AllergyIntolerance Constructor");
 
             fhirClient = new FhirClient(fhirServer);
@@ -66,16 +66,24 @@ namespace EhrgoHealth.WebService.Models
             foreach (var m in medications)
             {
                 allergyLookup.TryGetValue(m.ToLower(), out currentAllergyCodeList);
-                if (currentAllergyCodeList != null && currentAllergyCodeList.Count > 0)
+                //if (currentAllergyCodeList != null && currentAllergyCodeList.Count > 0)
+                //{
+                //    foreach (var c in currentAllergyCodeList)
+                //    {                       
+                //        if (lookupPatientsKnownAllergies.ContainsKey(c))
+                //        {                           
+                //            listOfAllergicMedications.Add(m);
+                //        }
+                //    }
+                //}
+                if (currentAllergyCodeList == null || currentAllergyCodeList.Count < 1)
                 {
-                    foreach (var c in currentAllergyCodeList)
-                    {                       
-                        if (lookupPatientsKnownAllergies.ContainsKey(c))
-                        {                           
-                            listOfAllergicMedications.Add(m);
-                        }
-                    }
+                    continue;
                 }
+                //add range is faster as it will resize the array only once to accommodate the extra items.
+                listOfAllergicMedications.AddRange(
+                currentAllergyCodeList
+                .Where(c => lookupPatientsKnownAllergies.ContainsKey(c)));
 
             }
             return listOfAllergicMedications;
@@ -140,24 +148,14 @@ namespace EhrgoHealth.WebService.Models
         /// <param name="lookupPatientsKnownAllergies"> Dictonary of patient's known allergies</param>
         public Dictionary<string, Boolean> GetPatientsKnownAllergies(uint patientID)
         {
-            var allergyResource = fhirClient.Read<Hl7.Fhir.Model.AllergyIntolerance>("AllergyIntolerance/" + patientID);
-            //Coding coding = allergyResource.Substance.Coding.First<Coding>();
-            if (allergyResource.Substance.Coding.Count == 0)
-            {
-                //Patient has no known allergies, exit early to avoid unnecessary logic execution
-                return null;
-            }
-            List<Coding> patientsKnownAllergies = allergyResource.Substance.Coding.ToList();
-
             //Create a dictionary for O(1) lookup time later.
             Dictionary<string, Boolean> lookupPatientsKnownAllergies = new Dictionary<string, Boolean>();
 
-            foreach (var a in patientsKnownAllergies)
-            {
-                lookupPatientsKnownAllergies.Add(a.Code, true);
-            }
-
-            return lookupPatientsKnownAllergies;
+            //Attempt to retrieve Allergy Intolerance codes of a patient from the remote FHIR server
+            var allergyResource = fhirClient.Read<Hl7.Fhir.Model.AllergyIntolerance>("AllergyIntolerance/" + patientID);
+            
+            return allergyResource.Substance.Coding.Count == 0 ? lookupPatientsKnownAllergies :
+                allergyResource.Substance.Coding.ToDictionary(a => a.Code, a => true);
         }//end GetPatientsKnownAllergies
 
     }

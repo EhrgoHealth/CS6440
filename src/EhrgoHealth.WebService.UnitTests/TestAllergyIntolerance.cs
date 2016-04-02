@@ -14,7 +14,7 @@ namespace EhrgoHealth.WebService.UnitTests
         {
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 6140;
-            List<string> medications = new List<string>() { "hYdRoCoDoNe" };
+            var medications = new List<string>() { "hYdRoCoDoNe" };
             Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
             Assert.True(result);
         }
@@ -25,7 +25,7 @@ namespace EhrgoHealth.WebService.UnitTests
         {
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 6140;
-            List<string> medications = new List<string>() { "NotARealMedicine" };
+            var medications = new List<string>() { "NotARealMedicine" };
             Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
             Assert.False(result);
         }
@@ -36,7 +36,7 @@ namespace EhrgoHealth.WebService.UnitTests
         {
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 999999;
-            List<string> medications = new List<string>() { "NotARealMedicine" };
+            var medications = new List<string>() { "NotARealMedicine" };
             FhirOperationException ex = Assert.Throws<FhirOperationException>(() => allergyIntolerance.IsAllergicToMedications(patientID, medications));
             string expected =
                 @"Operation was unsuccessful, and returned status 404.";
@@ -51,8 +51,8 @@ namespace EhrgoHealth.WebService.UnitTests
         {
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 6140;
-            List<string> medications = new List<string>() { "hydrocodone" };
-            List<string> result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
+            var medications = new List<string>() { "hydrocodone" };
+            var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
 
             //We know the medication we expect to see in this list should be hydrocodone
             //because patient is alergic
@@ -66,8 +66,8 @@ namespace EhrgoHealth.WebService.UnitTests
         {
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 6140;
-            List<string> medications = new List<string>() { "tylenol" };
-            List<string> result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
+            var medications = new List<string>() { "tylenol" };
+            var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
 
             //The patient is not allergic to tylenol and we will be given an empty list.
 
