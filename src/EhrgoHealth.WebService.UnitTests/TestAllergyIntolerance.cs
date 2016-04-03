@@ -1,9 +1,7 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using Hl7.Fhir.Rest;
 using System.Collections.Generic;
 using System.Linq;
-using EhrgoHealth.WebService;
 
 namespace EhrgoHealth.WebService.UnitTests
 {

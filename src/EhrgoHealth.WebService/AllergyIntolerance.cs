@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using EhrgoHealth;
+
 
 namespace EhrgoHealth.WebService
 {
@@ -99,24 +98,7 @@ namespace EhrgoHealth.WebService
         private Boolean IsAllergic(IList<string> medications, IDictionary<string, Boolean> lookupPatientsKnownAllergies)
         {
             var currentAllergyCodeList = new List<string>();
-            //foreach (var m in medications)
-            //{
-            //    Constants.ALLERGY_LOOKUP.TryGetValue(m.ToLower(), out currentAllergyCodeList);
-            //    if (currentAllergyCodeList != null && currentAllergyCodeList.Count > 0)
-            //    {
-            //        foreach (var c in currentAllergyCodeList)
-            //        {                        
-            //            if (lookupPatientsKnownAllergies.ContainsKey(c))
-            //            {                           
-            //                return true;
-            //            }
-            //        }
-            //    }
-
-            //}
-            //return false;
-            //return currentAllergyCodeList != null && currentAllergyCodeList.Count > 0
-            //    && currentAllergyCodeList.Any(c => lookupPatientsKnownAllergies.ContainsKey(c))
+            
             return medications
                  .Where(a=>!string.IsNullOrEmpty(a))
                  .Select(a=>a.ToLower())
