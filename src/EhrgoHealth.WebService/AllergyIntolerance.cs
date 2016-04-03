@@ -118,6 +118,8 @@ namespace EhrgoHealth.WebService
             //return currentAllergyCodeList != null && currentAllergyCodeList.Count > 0
             //    && currentAllergyCodeList.Any(c => lookupPatientsKnownAllergies.ContainsKey(c))
             return medications
+                 .Where(a=>!string.IsNullOrEmpty(a))
+                 .Select(a=>a.ToLower())
                  .Where(a => Constants.ALLERGY_LOOKUP.ContainsKey(a))
                  .Select(a => new Tuple<string, List<string>>(a, Constants.ALLERGY_LOOKUP[a]))
                  .Any(a => a.Item2.Any(c => lookupPatientsKnownAllergies.ContainsKey(c)));

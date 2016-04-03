@@ -67,7 +67,7 @@ namespace EhrgoHealth.WebService.UnitTests
         public void TestGetListOfMedicationAllergies02()
         {
             var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            uint patientID = 6140;
+            var patientID = 6140;
             var medications = new List<string>() { "tylenol" };
             var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
 
