@@ -3,7 +3,7 @@ using Xunit;
 using Hl7.Fhir.Rest;
 using System.Collections.Generic;
 using System.Linq;
-using EhrgoHealth.WebService.Models;
+using EhrgoHealth.WebService;
 
 namespace EhrgoHealth.WebService.UnitTests
 {
@@ -14,10 +14,10 @@ namespace EhrgoHealth.WebService.UnitTests
         [Fact]
         public void TestIsAllergicToMedications01()
         {
-            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            uint patientID = 6140;
+            var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            var patientID = 6140;
             var medications = new List<string>() { "hYdRoCoDoNe" };
-            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
+            var result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
             Assert.True(result);
         }
 
@@ -25,10 +25,10 @@ namespace EhrgoHealth.WebService.UnitTests
         [Fact]
         public void TestIsAllergicToMedications02()
         {
-            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            uint patientID = 6140;
+            var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            var patientID = 6140;
             var medications = new List<string>() { "NotARealMedicine" };
-            Boolean result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
+            var result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
             Assert.False(result);
         }
 
@@ -36,8 +36,8 @@ namespace EhrgoHealth.WebService.UnitTests
         [Fact]
         public void TestIsAllergicToMedications03()
         {
-            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            uint patientID = 999999;
+            var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            var patientID = 999999;
             var medications = new List<string>() { "NotARealMedicine" };
             FhirOperationException ex = Assert.Throws<FhirOperationException>(() => allergyIntolerance.IsAllergicToMedications(patientID, medications));
             string expected =
@@ -51,8 +51,8 @@ namespace EhrgoHealth.WebService.UnitTests
         [Fact]
         public void TestGetListOfMedicationAllergies01()
         {
-            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            uint patientID = 6140;
+            var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            var patientID = 6140;
             var medications = new List<string>() { "hydrocodone" };
             var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
             
@@ -66,7 +66,7 @@ namespace EhrgoHealth.WebService.UnitTests
         [Fact]
         public void TestGetListOfMedicationAllergies02()
         {
-            Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+            var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 6140;
             var medications = new List<string>() { "tylenol" };
             var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
