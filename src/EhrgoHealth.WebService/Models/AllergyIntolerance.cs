@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using EhrgoHealth;
 
 namespace EhrgoHealth.WebService.Models
 {
     public class AllergyIntolerance
     {
         //Dictonary looks up possible allergies for a given medication. Example allergyLookup<Medication, List<Codes>>
-        private Dictionary<string, List<string>> allergyLookup = new Dictionary<string, List<string>>();
+     //   private Dictionary<string, List<string>> allergyLookup = new Dictionary<string, List<string>>();
         private FhirClient fhirClient = null;
 
 
@@ -21,7 +22,7 @@ namespace EhrgoHealth.WebService.Models
             fhirClient = new FhirClient(fhirServer);
 
             //We do not use a database for the webservice. We will hardcode a handful of allergies and their intolerances
-            allergyLookup.Add("hydrocodone", new List<string>() { "Z88.5" });
+      //      allergyLookup.Add("hydrocodone", new List<string> { "Z88.5" });
         }
 
         //The controller is expected to receive two pieces of data from an EHR.
@@ -32,15 +33,15 @@ namespace EhrgoHealth.WebService.Models
         /// </summary>       
         /// <param name="patientID"> The patient's ID from FHIR</param>
         /// <param name="medications"> The List of medications they currently know their patient is taking</param>
-        public List<string> GetListOfMedicationAllergies(uint patientID, List<string> medications)
+        public IEnumerable<string> GetListOfMedicationAllergies(uint patientID, List<string> medications)
         {
             //ToDo: Discuss with team about returning a dictionary or wrapper class, so that we can inform the EHR
             //      on both the medication conflict and the allergy code.
 
 
             //First let us fetch the known allergies of the patient.
-            List<string> returnedAllergies = new List<string>();
-            Dictionary<string, Boolean> lookupPatientsKnownAllergies = GetPatientsKnownAllergies(patientID);
+            var returnedAllergies = new List<string>();
+            var lookupPatientsKnownAllergies = GetPatientsKnownAllergies(patientID);
             if (lookupPatientsKnownAllergies == null)
             {
                 //There are no records on the FHIR server of this patient having any allergies.
@@ -48,7 +49,7 @@ namespace EhrgoHealth.WebService.Models
             }         
 
             ////Now we retrieve the list of known allergies their medications can trigger
-            List<string> listOfAllergicMedications = DetermineListOfAllergicMedications(medications, lookupPatientsKnownAllergies);
+            var listOfAllergicMedications = DetermineListOfAllergicMedications(medications, lookupPatientsKnownAllergies);
             return listOfAllergicMedications;  
         }//end GetListOfMedicationAllergies method
 
@@ -59,34 +60,14 @@ namespace EhrgoHealth.WebService.Models
         /// </summary>       
         /// <param name="medications"> List of patients medications</param>
         /// <param name="lookupPatientsKnownAllergies"> Dictionary of allergies the patient has, populated from FHIR</param>
-        private List<string> DetermineListOfAllergicMedications(List<string> medications, Dictionary<string, bool> lookupPatientsKnownAllergies)
+        private IEnumerable<string> DetermineListOfAllergicMedications(List<string> medications, Dictionary<string, bool> lookupPatientsKnownAllergies)
         {
-            List<string> listOfAllergicMedications = new List<string>();
-            List<string> currentAllergyCodeList = new List<string>();
-            foreach (var m in medications)
-            {
-                allergyLookup.TryGetValue(m.ToLower(), out currentAllergyCodeList);
-                //if (currentAllergyCodeList != null && currentAllergyCodeList.Count > 0)
-                //{
-                //    foreach (var c in currentAllergyCodeList)
-                //    {                       
-                //        if (lookupPatientsKnownAllergies.ContainsKey(c))
-                //        {                           
-                //            listOfAllergicMedications.Add(m);
-                //        }
-                //    }
-                //}
-                if (currentAllergyCodeList == null || currentAllergyCodeList.Count < 1)
-                {
-                    continue;
-                }
-                //add range is faster as it will resize the array only once to accommodate the extra items.
-                listOfAllergicMedications.AddRange(
-                currentAllergyCodeList
-                .Where(c => lookupPatientsKnownAllergies.ContainsKey(c)));
-
-            }
-            return listOfAllergicMedications;
+            return
+                medications
+                .Where(a => Constants.ALLERGY_LOOKUP.ContainsKey(a))
+                .Select(a => new Tuple<string, List<string>>(a, Constants.ALLERGY_LOOKUP[a]))
+                .Where(a => a.Item2.Any(c => lookupPatientsKnownAllergies.ContainsKey(c)))
+                .Select(a => a.Item1);
         }
 
         /// If you only care if a patient is allergic to one of their medications, call this method.
@@ -100,8 +81,8 @@ namespace EhrgoHealth.WebService.Models
         public Boolean IsAllergicToMedications(uint patientID, List<String> medications)
         {
             //First let us fetch the known allergies of the patient.
-            List<string> returnedAllergies = new List<string>();
-            Dictionary<string, Boolean> lookupPatientsKnownAllergies = GetPatientsKnownAllergies(patientID);
+            var returnedAllergies = new List<string>();
+            var lookupPatientsKnownAllergies = GetPatientsKnownAllergies(patientID);
             if (lookupPatientsKnownAllergies == null)
             {
                 //There are no records on the FHIR server of this patient having any allergies.
@@ -121,10 +102,10 @@ namespace EhrgoHealth.WebService.Models
         /// <param name="lookupPatientsKnownAllergies"> Dictonary of patient's known allergies</param>
         private Boolean IsAllergic(List<string> medications, Dictionary<string, Boolean> lookupPatientsKnownAllergies)
         {
-            List<string> currentAllergyCodeList = new List<string>();
+            var currentAllergyCodeList = new List<string>();
             foreach (var m in medications)
             {
-                allergyLookup.TryGetValue(m.ToLower(), out currentAllergyCodeList);
+                Constants.ALLERGY_LOOKUP.TryGetValue(m.ToLower(), out currentAllergyCodeList);
                 if (currentAllergyCodeList != null && currentAllergyCodeList.Count > 0)
                 {
                     foreach (var c in currentAllergyCodeList)
@@ -144,12 +125,11 @@ namespace EhrgoHealth.WebService.Models
         /// <summary>       
         /// If you want the list of allergy codes of a patient, then just pass in the patient's ID.
         /// </summary>       
-        /// <param name="medications"> List of patients medications</param>
-        /// <param name="lookupPatientsKnownAllergies"> Dictonary of patient's known allergies</param>
+        /// <param name="patientID"> Unique ID of patient for FHIR server</param>
         public Dictionary<string, Boolean> GetPatientsKnownAllergies(uint patientID)
         {
             //Create a dictionary for O(1) lookup time later.
-            Dictionary<string, Boolean> lookupPatientsKnownAllergies = new Dictionary<string, Boolean>();
+            var lookupPatientsKnownAllergies = new Dictionary<string, Boolean>();
 
             //Attempt to retrieve Allergy Intolerance codes of a patient from the remote FHIR server
             var allergyResource = fhirClient.Read<Hl7.Fhir.Model.AllergyIntolerance>("AllergyIntolerance/" + patientID);

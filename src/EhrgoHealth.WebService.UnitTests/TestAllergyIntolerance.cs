@@ -2,6 +2,8 @@
 using Xunit;
 using Hl7.Fhir.Rest;
 using System.Collections.Generic;
+using System.Linq;
+using EhrgoHealth.WebService.Models;
 
 namespace EhrgoHealth.WebService.UnitTests
 {
@@ -52,8 +54,8 @@ namespace EhrgoHealth.WebService.UnitTests
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 6140;
             var medications = new List<string>() { "hydrocodone" };
-            var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
-
+            var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
+            
             //We know the medication we expect to see in this list should be hydrocodone
             //because patient is alergic
 
@@ -67,7 +69,7 @@ namespace EhrgoHealth.WebService.UnitTests
             Models.AllergyIntolerance allergyIntolerance = new Models.AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
             uint patientID = 6140;
             var medications = new List<string>() { "tylenol" };
-            var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications);
+            var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
 
             //The patient is not allergic to tylenol and we will be given an empty list.
 
