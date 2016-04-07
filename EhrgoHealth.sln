@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EhrgoHealth", "src\EhrgoHealth\EhrgoHealth.csproj", "{F1955D36-FD8D-4C8D-839E-87B8355A8C90}"
 EndProject
@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EhrgoHealth.WebService", "src\EhrgoHealth.WebService\EhrgoHealth.WebService.csproj", "{235C95AC-08C8-427E-B7AB-F5989A693CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EhrgoHealth.WebService.UnitTests", "src\EhrgoHealth.WebService.UnitTests\EhrgoHealth.WebService.UnitTests.csproj", "{5A7415BE-B6F5-46B9-8C71-F61515712950}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{235C95AC-08C8-427E-B7AB-F5989A693CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{235C95AC-08C8-427E-B7AB-F5989A693CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{235C95AC-08C8-427E-B7AB-F5989A693CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A7415BE-B6F5-46B9-8C71-F61515712950}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
