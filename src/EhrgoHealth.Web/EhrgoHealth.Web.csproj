@@ -379,9 +379,6 @@
     <Folder Include="Areas\Staff\Views\Register\" />
     <Folder Include="Areas\Staff\Views\Shared\" />
     <Folder Include="Areas\Staff\Views\StaffBase\" />
-    <Folder Include="NewFolder1\" />
-    <Folder Include="NewFolder2\" />
-    <Folder Include="NewFolder3\" />
     <Folder Include="Views\AuthorizationBase\" />
   </ItemGroup>
   <ItemGroup>
