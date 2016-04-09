@@ -15,6 +15,12 @@ namespace EhrgoHealth.Web.Models
         public string ReturnUrl { get; set; }
     }
 
+    public enum AccountLevel
+    {
+        PATIENT,
+        PROVIDER
+    }
+
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }
@@ -80,6 +86,12 @@ namespace EhrgoHealth.Web.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
+        [Required(ErrorMessage = "select one item")]
+        [DataType(DataType.Custom)]
+        [Display(Name = "Account Level")]
+        public AccountLevel Account_Level { get; set; }
 
         public string Area { get; set; }
     }
