@@ -1,0 +1,28 @@
+﻿<!-- TODO: This will obviously be required to move to the Provider Area later -->
+@{
+    ViewBag.Title = "Provider";
+}
+
+<div class="jumbotron">
+    <h1><font color="#4863A0"><i>Ehrgo</i> Health</font></h1>
+
+    <p class="lead">@ViewBag.Message</p>
+</div>
+
+<p>
+    <h4><i> Ehrgo Health enables medical providers to consume data directly from the patient-maintained system </i></h4>
+</p>
+<div class="row">
+    <div class="col-md-4">
+        <img src="~/Content/Images/EHR_illustration.jpg" width="300" height="250" />
+    </div>
+    <div class="col-md-8">
+        <h2>Update/Check Plan</h2>
+        <p>
+            Check new treatment plan against patient data 
+        </p>
+        <p>
+            <a class="btn btn-default" @Html.ActionLink("Goto Treatment Verifier", "Provider", "Home") </a>
+        </p>
+    </div>    
+</div>
