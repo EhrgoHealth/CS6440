@@ -50,8 +50,8 @@ namespace EhrgoHealth.WebService.UnitTests
         public void TestGetListOfMedicationAllergies01()
         {
             var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            var patientID = 6140;
-            var medications = new List<string>() { "hydrocodone" };
+            var patientID = 6140; //Patient ID for FHIR Server
+            var medications = new List<string>() { "hydrocodone", "aspirin" }; //medications the patient is taking
             var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
             
             //We know the medication we expect to see in this list should be hydrocodone

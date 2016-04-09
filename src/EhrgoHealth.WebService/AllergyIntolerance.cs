@@ -109,7 +109,7 @@ namespace EhrgoHealth.WebService
 
          
         /// <summary>       
-        /// Returns a dictionary of patient's allergies from the FHIR server
+        /// Returns a dictionary of patient's allergies (ICD-10-CM Diagnosis Codes) from the FHIR server
         /// </summary>       
         /// <param name="patientID"> Unique ID of patient for FHIR server</param>
         public IDictionary<string, Boolean> GetPatientsKnownAllergies(int patientID)
