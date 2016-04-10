@@ -12,10 +12,25 @@ namespace EhrgoHealth.Web.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Ehrgo Health provides treatment plan verification for patients and their providers";
 
             return View();
         }
+
+        public ActionResult Patient()
+        {
+            ViewBag.Message = "EHR Patient Treatment Tracking and Data";
+
+            return View();
+        }
+
+        public ActionResult Provider()
+        {
+            ViewBag.Message = "EHR Provider Treatment Plan Verifier";
+
+            return View();
+        }
+
 
         public ActionResult Contact()
         {
