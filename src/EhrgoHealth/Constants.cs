@@ -4,6 +4,10 @@ namespace EhrgoHealth
 {
     public static class Constants
     {
+        //todo: probably should abstract this in a way where we can use multiple different EHR's
+        public const string IndianaFhirServerBase = "http://52.72.172.54:8080/fhir/baseDstu2/";
+
+        public const string IndianaFhirServerPatientBaseUrl = "Patient/";
         public const string FitbitClaimsToken = "accessToken:fitbit";
         
 
