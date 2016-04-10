@@ -1,6 +1,8 @@
-﻿using EhrgoHealth.Web.Models;
+﻿using EhrgoHealth.Web.Migrations;
+using EhrgoHealth.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,6 +13,7 @@ namespace EhrgoHealth.Web.App_Start
     {
         public static void Bootstrap(ApplicationDbContext db)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
             //roles the database should have ahead of time
             var defaultRoles = new List<string> { "Staff", "Patient" };
             defaultRoles

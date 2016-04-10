@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Fitbit.Models;
+﻿using Fitbit.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace EhrgoHealth.Web.Models
 {
@@ -12,7 +12,8 @@ namespace EhrgoHealth.Web.Models
     {
         public virtual ICollection<EhrgoHealth.Data.FoodLog> FoodLogs { get; set; }
 
-        //public virtual AccountLevel UserLevel { get; set; }
+        //for now assume 1 ehr (its easier that way)
+        public string FhirPatientId { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
