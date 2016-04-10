@@ -279,9 +279,19 @@
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
     <Compile Include="Areas\Staff\Controllers\EhrController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffBaseController.cs" />
+    <Compile Include="Areas\Staff\Models\PatientDataViewModel.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Areas\Staff\Models\PatientData.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
+    <Compile Include="Migrations\201604101310132_InitialCreate.cs" />
+    <Compile Include="Migrations\201604101310132_InitialCreate.Designer.cs">
+      <DependentUpon>201604101310132_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604101424138_1.cs" />
+    <Compile Include="Migrations\201604101424138_1.Designer.cs">
+      <DependentUpon>201604101424138_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationRoleManager.cs" />
     <Compile Include="MVCActionResults\ChallengeResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -404,6 +414,14 @@
       <Project>{f1955d36-fd8d-4c8d-839e-87b8355a8c90}</Project>
       <Name>EhrgoHealth</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604101310132_InitialCreate.resx">
+      <DependentUpon>201604101310132_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604101424138_1.resx">
+      <DependentUpon>201604101424138_1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
