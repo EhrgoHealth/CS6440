@@ -1,9 +1,9 @@
-﻿using System;
+﻿using EhrgoHealth.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using EhrgoHealth.Web.Models;
 
 namespace EhrgoHealth.Web.App_Start
 {

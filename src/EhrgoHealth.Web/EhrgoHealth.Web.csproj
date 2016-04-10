@@ -271,11 +271,10 @@
     <Compile Include="Areas\Patient\Controllers\FitbitController.cs" />
     <Compile Include="Areas\Patient\Controllers\HomeController.cs" />
     <Compile Include="Areas\Patient\Controllers\PatientBaseController.cs" />
-    <Compile Include="Areas\Patient\Controllers\RegisterController.cs" />
+    <Compile Include="Areas\Patient\Models\FitbitViewModel.cs" />
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
-    <Compile Include="Areas\Staff\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffBaseController.cs" />
-    <Compile Include="Controllers\RegisterBaseController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
     <Compile Include="Models\ApplicationRoleManager.cs" />
     <Compile Include="MVCActionResults\ChallengeResult.cs" />
@@ -312,15 +311,22 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Areas\Patient\Views\web.config" />
     <Content Include="Areas\Staff\Views\web.config" />
     <Content Include="Areas\Patient\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Patient\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Patient\Views\Home\Index.cshtml" />
     <Content Include="Areas\Patient\Views\PatientBase\FitBitPortal.cshtml" />
+    <Content Include="Areas\Patient\Views\Fitbit\Index.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Areas\Patient\Views\Shared\FoodLog.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -377,7 +383,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Patient\Models\" />
     <Folder Include="Areas\Staff\Models\" />
     <Folder Include="Areas\Staff\Views\Register\" />
     <Folder Include="Areas\Staff\Views\Shared\" />

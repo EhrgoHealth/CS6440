@@ -1,27 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using EhrgoHealth.Web.Models;
+using Microsoft.AspNet.Identity;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using EhrgoHealth.Web.Models;
-using Microsoft.AspNet.Identity;
 
 namespace EhrgoHealth.Web.Controllers
 {
-    public abstract class RegisterBaseController : AuthorizationBaseController
+    public class RegisterController : AuthorizationBaseController
     {
         public ApplicationUserManager UserManager { get; set; }
         public ApplicationSignInManager SignInManager { get; set; }
 
-        //overridden by inheritors
-        protected abstract IEnumerable<string> Roles { get; }
-
-        protected abstract string Area { get; }
-
-        protected RegisterBaseController(ApplicationUserManager userManager, ApplicationSignInManager signinManager)
+        public RegisterController(ApplicationUserManager userManager, ApplicationSignInManager signinManager)
             : base(userManager)
         {
             SignInManager = signinManager;
             UserManager = userManager;
+        }
+
+        public ActionResult Index()
+        {
+            return RedirectToAction("Register");
         }
 
         //
@@ -29,7 +30,7 @@ namespace EhrgoHealth.Web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View(viewName: "Register", model: new RegisterViewModel() { Area = Area });
+            return View(viewName: "Register", model: new RegisterViewModel());
         }
 
         //
@@ -41,11 +42,11 @@ namespace EhrgoHealth.Web.Controllers
         {
             if(ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; //, UserLevel = model.Account_Level };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if(result.Succeeded)
                 {
-                    await UserManager.AddToRolesAsync(user.Id, this.Roles.ToArray());
+                    await UserManager.AddToRolesAsync(user.Id, Enum.GetName(typeof(AccountLevel), model.Account_Level));
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -58,9 +59,8 @@ namespace EhrgoHealth.Web.Controllers
                 }
                 AddErrors(result);
             }
-            model.Area = Area;
             // If we got this far, something failed, redisplay form
-            return View(viewName: "Register", model: model);
+            return View(viewName: "Register");
         }
     }
 }
