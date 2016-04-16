@@ -54,10 +54,50 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
             using(var dbcontext = new ApplicationDbContext())
             {
                 var user = dbcontext.Users.FirstOrDefault(a => a.Id == id);
-                //todo: figure out how to add a medication order into fhir, probably also use james' service to determin if someone will dieeeee
-            }
+               
+                //todo: I do not know where the medicationName will be pulled from, so change harcoded "medicationName"
+                //      to the parameter name you expect to use.
 
-            throw new NotImplementedException();
+                //Full list of Parameters you may also decide to pass in:
+                //patientID (done), medicationName, system, and display
+
+                //First let us create the FHIR client
+                var fhirClient = new FhirClient(Constants.IndianaFhirServerBase);
+
+                //First we need to create our medication
+                Medication medication = new Medication();
+                medication.Code = new CodeableConcept("ICD-10", "medicationName");
+
+                //Now we need to push this to the server and grab the ID
+                var medicationResource = fhirClient.Create<Hl7.Fhir.Model.Medication>(medication);
+                string medicationResourceID = medicationResource.Id;
+
+                //Create an empty medication order resource and then assign attributes
+                Hl7.Fhir.Model.MedicationOrder fhirMedicationOrder = new Hl7.Fhir.Model.MedicationOrder();
+
+                //There is no API for "Reference" in MedicationOrder model, unlike Patient model.
+                //You must initialize ResourceReference inline.
+                fhirMedicationOrder.Medication = new ResourceReference()
+                {
+                    Reference = fhirClient.Endpoint.OriginalString + "Medication/" + medicationResourceID,
+                    Display = "EhrgoHealth"
+                };
+
+                //Now associate Medication Order to a Patient
+                fhirMedicationOrder.Patient = new ResourceReference();
+                fhirMedicationOrder.Patient.Reference = "Patient/" + id;
+
+                //Push the local patient resource to the FHIR Server and expect a newly assigned ID
+                var medicationOrderResource = fhirClient.Create<Hl7.Fhir.Model.MedicationOrder>(fhirMedicationOrder);
+
+               /* Uncoment or use the below logic if you want to put a break point or store the
+                * the medicationOrderID for testing.
+                 
+                String returnID = "The newly created Medication ID is: ";
+                returnID += medicationOrderResource.Id;
+              */
+            }
+                        
             return View();
         }
     }
