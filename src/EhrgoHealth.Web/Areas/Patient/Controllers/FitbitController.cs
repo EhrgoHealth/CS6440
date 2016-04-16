@@ -1,4 +1,5 @@
 ﻿using EhrgoHealth.Data;
+using EhrgoHealth.Web.Areas.Patient.Models;
 using EhrgoHealth.Web.MVCActionResults;
 using Fitbit.Api.Portable;
 using Microsoft.AspNet.Identity;
@@ -28,12 +29,34 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             this.authManager = authManager;
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Index(bool success = false)
+        {
+            var viewModel = new FitbitViewModel();
+            if(success == true)
+            {
+                viewModel.ToastText = "Data imported succesfully";
+                viewModel.ToastClass = "bg-Success";
+            }
+            var identity = await userManager.FindByIdAsync(this.User.Identity.GetUserId());
+            if(identity.FoodLogs == null || !identity.FoodLogs.Any())
+            {
+                viewModel.ToastText = "No fitbit data found";
+                viewModel.ToastClass = "bg-warning";
+            }
+            else
+            {
+                viewModel.FoodLog = identity.FoodLogs.ToList(); //tolist to force EF to get the data
+            }
+            return View(viewModel);
+        }
+
         /// <summary>
         /// Imports data from fitbit
         /// </summary>
         /// <param name="daysSince">get data since x days ago</param>
         /// <returns></returns>
-        public async Task<ActionResult> Import(int daysSince = 90)
+        public async Task<ActionResult> Import(int daysSince = 15)
         {
             var identity = await userManager.FindByIdAsync(this.User.Identity.GetUserId());
             if(!identity?.Claims?.Any(b => b.ClaimType.Equals(Constants.FitbitClaimsToken)) ?? true) //null coalece to true which will be false because of the ! at the start of the if
@@ -61,7 +84,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
                 .ForEach(a => identity.FoodLogs.Add(a));
             await userManager.UpdateAsync(identity);
 
-            return Content("Imported");
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,31 @@
+﻿@model IEnumerable<EhrgoHealth.Data.FoodLog>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LoggedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodBrand)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FoodName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FoodBrand)
+            </td>
+        </tr>
+    }
+</table>

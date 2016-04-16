@@ -1,0 +1,21 @@
+﻿@model EhrgoHealth.Web.Areas.Patient.Models.FitbitViewModel
+
+@{
+    ViewBag.Title = "Fitbit Data";
+}
+
+<h2>Welcome to your imported fitbit data</h2>
+
+<p>
+    <a class="btn btn-default" href="@Url.Action("Import")">Trigger Data import</a>
+</p>
+@if(!string.IsNullOrWhiteSpace(Model.ToastText) && !string.IsNullOrWhiteSpace(Model.ToastClass))
+{
+    <p class="@Model.ToastClass" style="padding:15px">@Model.ToastText</p>
+}
+else
+{
+
+    Html.RenderPartial("FoodLog", Model.FoodLog);
+
+}
