@@ -7,10 +7,12 @@ namespace EhrgoHealth
         public const string FitbitClaimsToken = "accessToken:fitbit";        
 
         //Medications we support
-        public const string HYDROCODONE = "hydrocodone";
+        public const string HYDROCODONE = "hydrocodone"; //Narcotic Allergy
+        public const string AMOXIL = "Amoxil"; //Penicillin Allergy
 
         //Allergy Intolerance Codes we support
-        public const string NARCOTICS = "Z88.5";        
+        public const string NARCOTICS = "Z88.5";
+        public const string PENICILLIN = "Z88.0";
 
         //Dictonary looks up possible allergies for a given medication. Example allergyLookup<Medication, List<Codes>>        
         //How to use: Add a new medication, along with a list of the AllergyIntolerance codes
@@ -19,7 +21,8 @@ namespace EhrgoHealth
         //http://www.icd10data.com/ICD10CM/Codes/Z00-Z99/Z77-Z99/Z88-/Z88.5
         public static readonly IDictionary<string, List<string>> ALLERGY_LOOKUP = new Dictionary<string, List<string>>
         {
-           [HYDROCODONE] = new List<string> {NARCOTICS},
+            [HYDROCODONE] = new List<string> { NARCOTICS },
+            [AMOXIL] = new List<string> { PENICILLIN }
         };  
     }
 }

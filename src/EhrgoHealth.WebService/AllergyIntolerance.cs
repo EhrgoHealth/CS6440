@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Rest;
-
+using Hl7.Fhir.Model;
+using System.Net;
 
 namespace EhrgoHealth.WebService
 {
@@ -116,8 +117,16 @@ namespace EhrgoHealth.WebService
         {
             //Create a dictionary for O(1) lookup time later.
             var lookupPatientsKnownAllergies = new Dictionary<string, Boolean>();
-
+            // var something = fhirClient.WholeSystemSearch(new string[] { "id=6116" });
             //Attempt to retrieve Allergy Intolerance codes of a patient from the remote FHIR server
+            // var incl = new string[] { "id" };
+            //Bundle results = fhirClient.SearchById<Hl7.Fhir.Model.AllergyIntolerance>("6116", incl);
+
+            WebRequest webRequest = WebRequest.Create("http://fhirtest.uhn.ca/baseDstu2/AllergyIntolerance?patient=6116");
+            webRequest.Method = "GET";
+            WebResponse webResp = webRequest.GetResponse();
+            var somethingstream = webResp.GetResponseStream();
+
             var allergyResource = fhirClient.Read<Hl7.Fhir.Model.AllergyIntolerance>("AllergyIntolerance/" + patientID);
             
             return allergyResource.Substance.Coding.Count == 0 ? lookupPatientsKnownAllergies :
