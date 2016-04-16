@@ -48,16 +48,24 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 return View();
             }
         }
-
+        
         public ActionResult AddMedicationOrder(string id)
         {
-            using(var dbcontext = new ApplicationDbContext())
+            //Note: Understand that MedicationOrder and Medications are 1:1 mappings. Not 1:Many.
+            //Medications contain information such the name of the manufacturer and name of the drug
+            //Medication order contains information about prescriber, the dosage instruction,
+            //and the date the medication was prescribed
+
+            using (var dbcontext = new ApplicationDbContext())
             {
                 var user = dbcontext.Users.FirstOrDefault(a => a.Id == id);
-               
+                //todo: I'm not sure about the web portion with regards with what the view should return, I leave
+                //      leave that to you, but I left logic to return the medication order ID if you desire. To
+                //      show whether the post was successful
+
                 //todo: I do not know where the medicationName will be pulled from, so change harcoded "medicationName"
                 //      to the parameter name you expect to use.
-
+                                
                 //Full list of Parameters you may also decide to pass in:
                 //patientID (done), medicationName, system, and display
 
