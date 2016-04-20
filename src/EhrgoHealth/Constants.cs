@@ -13,11 +13,17 @@ namespace EhrgoHealth
 
         //Medications we support
         public const string HYDROCODONE = "hydrocodone"; //Narcotic Allergy
-        public const string AMOXIL = "Amoxil"; //Penicillin Allergy
+        public const string AMOXIL = "amoxil"; //Penicillin Allergy
+        public const string ALLEGRA = "allegra"; //Lactose Intolerance
+        public const string TEGRETOL = "tegretol"; //Anticonvulsant (Seizure)
+        public const string SULFADOXINE = "Sulfadoxine"; //Sulfonamides
 
         //Allergy Intolerance Codes we support
         public const string NARCOTICS = "Z88.5";
         public const string PENICILLIN = "Z88.0";
+        public const string LACTOSE_INTOLERANCE = "E73.9";
+        public const string ANTICONVULSANT = "E936.3";
+        public const string SULFONAMIDES = "Z88.2";
 
         //Dictonary looks up possible allergies for a given medication. Example allergyLookup<Medication, List<Codes>>        
         //How to use: Add a new medication, along with a list of the AllergyIntolerance codes
@@ -27,7 +33,10 @@ namespace EhrgoHealth
         public static readonly IDictionary<string, List<string>> ALLERGY_LOOKUP = new Dictionary<string, List<string>>
         {
             [HYDROCODONE] = new List<string> { NARCOTICS },
-            [AMOXIL] = new List<string> { PENICILLIN }
+            [AMOXIL] = new List<string> { PENICILLIN },
+            [ALLEGRA] = new List<string> { LACTOSE_INTOLERANCE },
+            [TEGRETOL] = new List<string> { ANTICONVULSANT },
+            [ALLEGRA] = new List<string> { SULFONAMIDES }
         };  
     }
 }
