@@ -27,28 +27,89 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
         /// <returns></returns>
         public ActionResult Details(string id)
         {
-            using(var dbcontext = new ApplicationDbContext())
+            using (var dbcontext = new ApplicationDbContext())
             {
                 var user = dbcontext.Users.FirstOrDefault(a => a.Id == id);
-                if(user == null)
+                if (user == null)
                 {
                     return new HttpStatusCodeResult(404, "Patient not found");
                 }
-                if(string.IsNullOrWhiteSpace(user.FhirPatientId))
+                if (string.IsNullOrWhiteSpace(user.FhirPatientId))
                 {
                     //todo: figure out what to show if the patient has no fhir data setup
                 }
                 var client = new FhirClient(Constants.IndianaFhirServerBase);
                 var patientData = client.Read<Hl7.Fhir.Model.Patient>(Constants.IndianaFhirServerPatientBaseUrl + user.FhirPatientId);
-                //todo: figure out how to search on medication orders
-                //var medications = client.Search<Hl7.Fhir.Model.MedicationOrder>(new SearchParams() {  })
+                //Returns a list of medications
+                //Probably should be its own method
+                IList<string> listOfMedications = new List<string>();
 
-                //todo: create view probably some kind of basic ehr
-                throw new NotImplementedException();
-                return View();
-            }
+                //First we need to set up the Search Param Object
+                SearchParams mySearch = new SearchParams();
+
+                //Create a tuple containing search parameters for SearchParam object
+                // equivalent of "MedicationOrder?patient=6116";
+                Tuple<string, string> mySearchTuple = new Tuple<string, string>("patient", id);
+                mySearch.Parameters.Add(mySearchTuple);
+
+                //Query the fhir server with search parameters, we will retrieve a bundle
+                var searchResultResponse = client.Search<Hl7.Fhir.Model.MedicationOrder>(mySearch);
+
+                //There is an array of "entries" that can return. Get a list of all the entries.
+                var listOfentries = searchResultResponse.Entry;
+
+                //If no MedicationOrders associated with the patient
+                if (listOfentries.Count == 0)
+                    return null; //Not sure what we want to return
+
+
+
+                //Initializing in for loop is not the greatest.
+                foreach (var entry in listOfentries)
+                {
+
+                    //The entries we have, do not contain the medication reference.
+
+                    var medicationOrderResource = client.Read<Hl7.Fhir.Model.MedicationOrder>("MedicationOrder/" + entry.Resource.Id);
+
+                    //Casted this because ((ResourceReference)medicationOrderResource.Medication).Reference
+                    //is not pretty as a parameter
+                    ResourceReference castedResourceReference = (ResourceReference)medicationOrderResource.Medication;
+
+                    var medicationResource = client.Read<Hl7.Fhir.Model.Medication>(castedResourceReference.Reference);
+
+                    CodeableConcept castedCodeableConcept = medicationResource.Code;
+                    List<Coding> listOfCodes = castedCodeableConcept.Coding;
+
+
+                    //Now let us add the medication itself to our list
+                    foreach (var c in listOfCodes)
+                    {
+                        listOfMedications.Add(c.Code);
+                    }
+
+
+                }
+
+                /**Use this for debugging if you want*/
+                //string returnResult = String.Empty;
+                //foreach (var m in listOfMedications)
+                //{
+                //    returnResult += m + "\n"; //Stringbuilder class would be better
+                //}
+
+            /**At this point, you have a list of all the medications a patient is taking
+             * pulled from the FHIR server.  Access it from listOfMedications.
+             */ 
+
+            }//end using statement
+
+            //todo: create view probably some kind of basic ehr
+            throw new NotImplementedException();
+            return View();
         }
-        
+
+
         public ActionResult AddMedicationOrder(string id)
         {
             //Note: Understand that MedicationOrder and Medications are 1:1 mappings. Not 1:Many.
@@ -65,7 +126,7 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
 
                 //todo: I do not know where the medicationName will be pulled from, so change harcoded "medicationName"
                 //      to the parameter name you expect to use.
-                                
+
                 //Full list of Parameters you may also decide to pass in:
                 //patientID (done), medicationName, system, and display
 
@@ -98,14 +159,15 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 //Push the local patient resource to the FHIR Server and expect a newly assigned ID
                 var medicationOrderResource = fhirClient.Create<Hl7.Fhir.Model.MedicationOrder>(fhirMedicationOrder);
 
-               /* Uncoment or use the below logic if you want to put a break point or store the
-                * the medicationOrderID for testing.
-                 
-                String returnID = "The newly created Medication ID is: ";
-                returnID += medicationOrderResource.Id;
-              */
+                /* Uncoment or use the below logic if you want to put a break point or store the
+                 * the medicationOrderID for testing.
+
+                 String returnID = "The newly created Medication ID is: ";
+                 returnID += medicationOrderResource.Id;
+               */
             }
-                        
+
+            throw new NotImplementedException();
             return View();
         }
     }
