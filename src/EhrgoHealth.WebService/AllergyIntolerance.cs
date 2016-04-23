@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Hl7.Fhir.Rest;
-
+using Hl7.Fhir.Model;
+using System.Net;
 
 namespace EhrgoHealth.WebService
 {
@@ -37,7 +38,7 @@ namespace EhrgoHealth.WebService
             //First let us fetch the known allergies of the patient.
             var returnedAllergies = new List<string>();
             var lookupPatientsKnownAllergies = GetPatientsKnownAllergies(patientID);
-            if (lookupPatientsKnownAllergies == null)
+            if (lookupPatientsKnownAllergies == null || lookupPatientsKnownAllergies.Count == 0)
             {
                 //There are no records on the FHIR server of this patient having any allergies.
                 return returnedAllergies;
@@ -109,20 +110,67 @@ namespace EhrgoHealth.WebService
 
          
         /// <summary>       
-        /// Returns a dictionary of patient's allergies from the FHIR server
+        /// Returns a dictionary of patient's allergies (ICD-10-CM Diagnosis Codes) from the FHIR server
         /// </summary>       
         /// <param name="patientID"> Unique ID of patient for FHIR server</param>
         public IDictionary<string, Boolean> GetPatientsKnownAllergies(int patientID)
         {
-            //Create a dictionary for O(1) lookup time later.
             var lookupPatientsKnownAllergies = new Dictionary<string, Boolean>();
 
-            //Attempt to retrieve Allergy Intolerance codes of a patient from the remote FHIR server
-            var allergyResource = fhirClient.Read<Hl7.Fhir.Model.AllergyIntolerance>("AllergyIntolerance/" + patientID);
-            
-            return allergyResource.Substance.Coding.Count == 0 ? lookupPatientsKnownAllergies :
+            var listOfAllergyIntoleranceIDs = GetAllergyIntoleranceIDs(patientID.ToString());
+           
+            if(listOfAllergyIntoleranceIDs.Count == 0)
+            {
+                //return empty dictionary
+                return lookupPatientsKnownAllergies; 
+            }
+
+            //Now we go through each AllergyIntoleranceID and add their contents to the dictionary
+
+            foreach(var id in listOfAllergyIntoleranceIDs)
+            {
+                var allergyResource = fhirClient.Read<Hl7.Fhir.Model.AllergyIntolerance>("AllergyIntolerance/" + id);
+                lookupPatientsKnownAllergies = allergyResource.Substance.Coding.Count == 0 ? lookupPatientsKnownAllergies :
                 allergyResource.Substance.Coding.ToDictionary(a => a.Code, a => true);
+            }
+
+            return lookupPatientsKnownAllergies;
+           
         }//end GetPatientsKnownAllergies
 
+        /// <summary>       
+        /// Returns a dictionary of patient's allergies (ICD-10-CM Diagnosis Codes) from the FHIR server
+        /// </summary>       
+        /// <param name="patientID"> Unique ID of patient for FHIR server</param>
+        private IList<string> GetAllergyIntoleranceIDs(string patientID)
+        {
+            IList<string> listOfAllergyIntoleranceIDs = new List<string>();
+
+            //First we need to set up the Search Param Object
+            SearchParams mySearch = new SearchParams();
+
+            //Create a tuple containing search parameters for SearchParam object
+            // equivalent of "AllergyIntolerance?patient=6116";
+            Tuple<string, string> mySearchTuple = new Tuple<string, string>("patient", patientID.ToString());
+            mySearch.Parameters.Add(mySearchTuple);
+
+            //Query the fhir server with search parameters, we will retrieve a bundle
+            var searchResultResponse = fhirClient.Search<Hl7.Fhir.Model.AllergyIntolerance>(mySearch);
+
+            //There is an array of "entries" that can return. Get a list of all the entries.
+            var listOfentries = searchResultResponse.Entry;
+
+            if (listOfentries.Count == 0)
+                return listOfAllergyIntoleranceIDs;
+
+           
+            //Let us pull out only the Allery Intolerance IDs from the bundle objects
+            foreach (var entry in listOfentries)
+            {
+                listOfAllergyIntoleranceIDs.Add(entry.Resource.Id);
+            }
+
+            return listOfAllergyIntoleranceIDs;          
+        }
     }
 }

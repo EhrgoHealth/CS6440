@@ -13,7 +13,7 @@ namespace EhrgoHealth.WebService.UnitTests
         public void TestIsAllergicToMedications01()
         {
             var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            var patientID = 6140;
+            var patientID = 6116;
             var medications = new List<string>() { "hYdRoCoDoNe" };
             var result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
             Assert.True(result);
@@ -24,25 +24,12 @@ namespace EhrgoHealth.WebService.UnitTests
         public void TestIsAllergicToMedications02()
         {
             var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            var patientID = 6140;
+            var patientID = 6116;
             var medications = new List<string>() { "NotARealMedicine" };
             var result = allergyIntolerance.IsAllergicToMedications(patientID, medications);
             Assert.False(result);
         }
-
-        //Pass in an invalid Patient ID that does not exist on the FHIR server.
-        [Fact]
-        public void TestIsAllergicToMedications03()
-        {
-            var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            var patientID = 999999;
-            var medications = new List<string>() { "NotARealMedicine" };
-            FhirOperationException ex = Assert.Throws<FhirOperationException>(() => allergyIntolerance.IsAllergicToMedications(patientID, medications));
-            string expected =
-                @"Operation was unsuccessful, and returned status 404.";
-            string actual = ex.Message.Substring(0, 52);            
-            Assert.Equal(expected, actual);
-        }
+       
 
         //Pass in valid medication that a patient has an allergy to and expect a returned list of medication the patient
         //is allergic to.
@@ -50,8 +37,8 @@ namespace EhrgoHealth.WebService.UnitTests
         public void TestGetListOfMedicationAllergies01()
         {
             var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            var patientID = 6140;
-            var medications = new List<string>() { "hydrocodone" };
+            var patientID = 6116; //Patient ID for FHIR Server
+            var medications = new List<string>() { "hydrocodone", "aspirin" }; //medications the patient is taking
             var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
             
             //We know the medication we expect to see in this list should be hydrocodone
@@ -65,7 +52,7 @@ namespace EhrgoHealth.WebService.UnitTests
         public void TestGetListOfMedicationAllergies02()
         {
             var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
-            var patientID = 6140;
+            var patientID = 6116;
             var medications = new List<string>() { "tylenol" };
             var result = allergyIntolerance.GetListOfMedicationAllergies(patientID, medications).ToList();
 
