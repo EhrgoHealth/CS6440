@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace EhrgoHealth.Web.Areas.Staff.Controllers
 {
     [Authorize(Roles = "Staff")]
-    public class StaffBaseController : Controller
+    public abstract class StaffBaseController : Controller
     {
     }
 }

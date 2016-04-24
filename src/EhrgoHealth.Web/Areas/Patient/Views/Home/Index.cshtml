@@ -1,5 +1,35 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Patient Home Page";
 }
+<div class="jumbotron">
+    <h1><font color="#4863A0"><i>Ehrgo</i> Health</font></h1>
 
-<h2>Welcome Patient!</h2>
+    <p class="lead">@ViewBag.Message</p>
+</div>
+
+<p>
+    <h4><i>  Ehrgo Health enables patients to verify new medication and track allergy history. </i></h4>
+</p>
+<div class="row">
+    <div class="col-md-4">
+        <img src="~/Content/Images/EHR_illustration.jpg" width="300" height="250" />
+    </div>
+    <div class="col-md-4">
+        <h2>Update/Check Plan</h2>
+        <p>
+            Check new drug against existing treatment plans and update allergy information
+        </p>
+        <p>
+            <a class="btn btn-default" @Html.ActionLink("Goto Verify Page", "Provider", "Home") </a>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get Tracking Data</h2>
+        <p>
+            Pull data from tracking equipment such as FitBit
+        </p>
+        <p>
+            <a class="btn btn-default" @Html.ActionLink("Goto Tracking Page", "Provider", "Home") </a>
+        </p>
+    </div>
+</div>
