@@ -278,6 +278,7 @@
     <Compile Include="Areas\Patient\Models\FitbitViewModel.cs" />
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
     <Compile Include="Areas\Staff\Controllers\EhrController.cs" />
+    <Compile Include="Areas\Staff\Controllers\HomeController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffBaseController.cs" />
     <Compile Include="Areas\Staff\Models\PatientDataViewModel.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -343,6 +344,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\Patient\Views\Shared\FoodLog.cshtml" />
+    <Content Include="Areas\Staff\Views\Home\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -394,8 +396,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Patient.cshtml" />
-    <Content Include="Views\Home\Provider.cshtml" />
+    <Content Include="Views\Shared\_MedicationHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

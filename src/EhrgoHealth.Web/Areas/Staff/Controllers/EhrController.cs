@@ -29,7 +29,8 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
         {
             using (var dbcontext = new ApplicationDbContext())
             {
-                var user = dbcontext.Users.FirstOrDefault(a => a.Id == id);
+                // Should be FhirID
+                var user = dbcontext.Users.FirstOrDefault(a => a.FhirPatientId == id);
                 if (user == null)
                 {
                     return new HttpStatusCodeResult(404, "Patient not found");
