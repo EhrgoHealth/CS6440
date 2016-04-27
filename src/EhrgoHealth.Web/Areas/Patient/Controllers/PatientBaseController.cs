@@ -7,7 +7,17 @@ using System.Web.Mvc;
 namespace EhrgoHealth.Web.Areas.Patient.Controllers
 {
     [Authorize(Roles = "Patient")]
-    public abstract class PatientBaseController : Controller
+    public  class PatientBaseController : Controller
     {
+
+        private readonly ApplicationUserManager userManager;
+
+        public PatientBaseController()
+        {
+            //this.userManager = userManager;
+        }
+
+
+        
     }
 }

@@ -345,6 +345,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\Patient\Views\Shared\FoodLog.cshtml" />
     <Content Include="Areas\Staff\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\History.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\CheckAllergy.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />

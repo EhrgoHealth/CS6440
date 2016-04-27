@@ -15,21 +15,21 @@
         <img src="~/Content/Images/EHR_illustration.jpg" width="300" height="250" />
     </div>
     <div class="col-md-4">
-        <h2>Update/Check Plan</h2>
+        <h2>Check Medication</h2>
         <p>
             Check new drug against existing treatment plans and update allergy information
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("Goto Verify Page", "Provider", "Home") </a>
+            <a class="btn btn-default" @Html.ActionLink("Goto Verify Page", "CheckAllergy", "Home") </a>
         </p>
     </div>
     <div class="col-md-4">
-        <h2>Get Tracking Data</h2>
+        <h2>Update History</h2>
         <p>
-            Pull data from tracking equipment such as FitBit
+            View and update current allergy and medication information
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("Goto Tracking Page", "Provider", "Home") </a>
+            <a class="btn btn-default" @Html.ActionLink("Goto Verify Page", "History", "Home") </a>
         </p>
     </div>
 </div>
