@@ -270,11 +270,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllergyIntolerance.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\DatabaseBootstrap.cs" />
     <Compile Include="Areas\Patient\Controllers\FitbitController.cs" />
     <Compile Include="Areas\Patient\Controllers\HomeController.cs" />
     <Compile Include="Areas\Patient\Controllers\PatientBaseController.cs" />
+    <Compile Include="Areas\Patient\Models\Medicine.cs" />
     <Compile Include="Areas\Patient\Models\FitbitViewModel.cs" />
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
     <Compile Include="Areas\Staff\Controllers\EhrController.cs" />
@@ -322,6 +324,7 @@
     <Content Include="Content\Images\EHR_illustration.jpg" />
     <Content Include="Content\Images\EHR_Patient.jpg" />
     <Content Include="Content\Images\EHR_Staff.png" />
+    <Content Include="Content\Images\Medicine.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -347,6 +350,7 @@
     <Content Include="Areas\Staff\Views\Home\Index.cshtml" />
     <Content Include="Areas\Patient\Views\Home\History.cshtml" />
     <Content Include="Areas\Patient\Views\Home\CheckAllergy.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\CheckVerification.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />

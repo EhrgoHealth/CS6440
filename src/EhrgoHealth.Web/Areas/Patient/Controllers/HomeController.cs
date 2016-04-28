@@ -29,17 +29,43 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
 
             return View();
         }
-
         public ActionResult CheckAllergy()
         {
-            var user = this.User.Identity;
 
             return View();
         }
 
-
-        public ActionResult History()
+        public ActionResult CheckVerification(Models.Medicine med)
         {
+            using (var dbcontext = new ApplicationDbContext())
+            {
+
+                var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+
+                var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
+                int patientID;
+                if (user == null || !int.TryParse(user.FhirPatientId, out patientID))
+                {
+                    return new HttpStatusCodeResult(404, "Patient not found");
+                }
+                if (string.IsNullOrWhiteSpace(user.FhirPatientId))
+                {
+                    //todo: figure out what to show if the patient has no fhir data setup
+                    return new HttpStatusCodeResult(404, "Patient does not have FHIR data");
+                }
+                var medications = new List<string>() { med.Name };
+                med.Found = allergyIntolerance.IsAllergicToMedications(patientID, medications);
+            }
+            return View(med);
+        }
+
+        public ActionResult History(Models.Medicine med)
+        {
+            return View(med);
+        }
+        public ActionResult HistoryBak()
+        {
+            /* 
             using (var dbcontext = new ApplicationDbContext())
             {
                 var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
@@ -128,7 +154,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
 
 
                 }
-            }
+            }*/
             return View();
         }
 
