@@ -354,6 +354,8 @@
     <Content Include="Areas\Patient\Views\Home\CheckVerification.cshtml" />
     <Content Include="Areas\Staff\Views\Home\CheckAllergy.cshtml" />
     <Content Include="Areas\Staff\Views\Home\CheckVerification.cshtml" />
+    <Content Include="Areas\Staff\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Staff\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -411,7 +413,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Staff\Views\Ehr\" />
     <Folder Include="Areas\Staff\Views\Register\" />
-    <Folder Include="Areas\Staff\Views\Shared\" />
     <Folder Include="Areas\Staff\Views\StaffBase\" />
     <Folder Include="Views\AuthorizationBase\" />
   </ItemGroup>
