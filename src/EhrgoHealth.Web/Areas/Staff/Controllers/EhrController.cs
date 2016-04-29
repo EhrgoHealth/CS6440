@@ -27,15 +27,15 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
         /// <returns></returns>
         public ActionResult Details(string id)
         {
-            using (var dbcontext = new ApplicationDbContext())
+            using(var dbcontext = new ApplicationDbContext())
             {
                 // Should be FhirID
                 var user = dbcontext.Users.FirstOrDefault(a => a.FhirPatientId == id);
-                if (user == null)
+                if(user == null)
                 {
                     return new HttpStatusCodeResult(404, "Patient not found");
                 }
-                if (string.IsNullOrWhiteSpace(user.FhirPatientId))
+                if(string.IsNullOrWhiteSpace(user.FhirPatientId))
                 {
                     //todo: figure out what to show if the patient has no fhir data setup
                 }
@@ -46,11 +46,11 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 IList<string> listOfMedications = new List<string>();
 
                 //First we need to set up the Search Param Object
-                SearchParams mySearch = new SearchParams();
+                var mySearch = new SearchParams();
 
                 //Create a tuple containing search parameters for SearchParam object
                 // equivalent of "MedicationOrder?patient=6116";
-                Tuple<string, string> mySearchTuple = new Tuple<string, string>("patient", id);
+                var mySearchTuple = new Tuple<string, string>("patient", id);
                 mySearch.Parameters.Add(mySearchTuple);
 
                 //Query the fhir server with search parameters, we will retrieve a bundle
@@ -60,56 +60,39 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 var listOfentries = searchResultResponse.Entry;
 
                 //If no MedicationOrders associated with the patient
-                if (listOfentries.Count == 0)
+                if(listOfentries.Count == 0)
                     return null; //Not sure what we want to return
 
-
-
                 //Initializing in for loop is not the greatest.
-                foreach (var entry in listOfentries)
+                foreach(var entry in listOfentries)
                 {
-
                     //The entries we have, do not contain the medication reference.
 
                     var medicationOrderResource = client.Read<Hl7.Fhir.Model.MedicationOrder>("MedicationOrder/" + entry.Resource.Id);
 
                     //Casted this because ((ResourceReference)medicationOrderResource.Medication).Reference
                     //is not pretty as a parameter
-                    ResourceReference castedResourceReference = (ResourceReference)medicationOrderResource.Medication;
+                    var castedResourceReference = (ResourceReference)medicationOrderResource.Medication;
 
                     var medicationResource = client.Read<Hl7.Fhir.Model.Medication>(castedResourceReference.Reference);
 
-                    CodeableConcept castedCodeableConcept = medicationResource.Code;
-                    List<Coding> listOfCodes = castedCodeableConcept.Coding;
-
+                    var castedCodeableConcept = medicationResource.Code;
+                    var listOfCodes = castedCodeableConcept.Coding;
 
                     //Now let us add the medication itself to our list
-                    foreach (var c in listOfCodes)
+                    foreach(var c in listOfCodes)
                     {
                         listOfMedications.Add(c.Code);
                     }
-
-
                 }
 
                 /**Use this for debugging if you want*/
-                //string returnResult = String.Empty;
-                //foreach (var m in listOfMedications)
-                //{
-                //    returnResult += m + "\n"; //Stringbuilder class would be better
-                //}
-
-            /**At this point, you have a list of all the medications a patient is taking
-             * pulled from the FHIR server.  Access it from listOfMedications.
-             */ 
-
             }//end using statement
 
             //todo: create view probably some kind of basic ehr
             throw new NotImplementedException();
             return View();
         }
-
 
         public ActionResult AddMedicationOrder(string id)
         {
@@ -118,7 +101,7 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
             //Medication order contains information about prescriber, the dosage instruction,
             //and the date the medication was prescribed
 
-            using (var dbcontext = new ApplicationDbContext())
+            using(var dbcontext = new ApplicationDbContext())
             {
                 var user = dbcontext.Users.FirstOrDefault(a => a.Id == id);
                 //todo: I'm not sure about the web portion with regards with what the view should return, I leave
@@ -135,15 +118,15 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 var fhirClient = new FhirClient(Constants.IndianaFhirServerBase);
 
                 //First we need to create our medication
-                Medication medication = new Medication();
+                var medication = new Medication();
                 medication.Code = new CodeableConcept("ICD-10", "medicationName");
 
                 //Now we need to push this to the server and grab the ID
                 var medicationResource = fhirClient.Create<Hl7.Fhir.Model.Medication>(medication);
-                string medicationResourceID = medicationResource.Id;
+                var medicationResourceID = medicationResource.Id;
 
                 //Create an empty medication order resource and then assign attributes
-                Hl7.Fhir.Model.MedicationOrder fhirMedicationOrder = new Hl7.Fhir.Model.MedicationOrder();
+                var fhirMedicationOrder = new Hl7.Fhir.Model.MedicationOrder();
 
                 //There is no API for "Reference" in MedicationOrder model, unlike Patient model.
                 //You must initialize ResourceReference inline.

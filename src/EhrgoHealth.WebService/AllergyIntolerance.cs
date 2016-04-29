@@ -147,11 +147,11 @@ namespace EhrgoHealth.WebService
             IList<string> listOfAllergyIntoleranceIDs = new List<string>();
 
             //First we need to set up the Search Param Object
-            SearchParams mySearch = new SearchParams();
+            var mySearch = new SearchParams();
 
             //Create a tuple containing search parameters for SearchParam object
             // equivalent of "AllergyIntolerance?patient=6116";
-            Tuple<string, string> mySearchTuple = new Tuple<string, string>("patient", patientID.ToString());
+            var mySearchTuple = new Tuple<string, string>("patient", patientID.ToString());
             mySearch.Parameters.Add(mySearchTuple);
 
             //Query the fhir server with search parameters, we will retrieve a bundle

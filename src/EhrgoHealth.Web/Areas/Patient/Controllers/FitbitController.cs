@@ -56,7 +56,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
         /// </summary>
         /// <param name="daysSince">get data since x days ago</param>
         /// <returns></returns>
-        public async Task<ActionResult> Import(int daysSince = 15)
+        public async Task<ActionResult> Import(int daysSince = 35)
         {
             var identity = await userManager.FindByIdAsync(this.User.Identity.GetUserId());
             if(!identity?.Claims?.Any(b => b.ClaimType.Equals(Constants.FitbitClaimsToken)) ?? true) //null coalece to true which will be false because of the ! at the start of the if
@@ -84,7 +84,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
                 .ForEach(a => identity.FoodLogs.Add(a));
             await userManager.UpdateAsync(identity);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { Success = true });
         }
     }
 }
