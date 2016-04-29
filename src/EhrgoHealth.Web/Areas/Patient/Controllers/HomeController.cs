@@ -40,7 +40,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             using (var dbcontext = new ApplicationDbContext())
             {
 
-                var allergyIntolerance = new AllergyIntolerance("http://fhirtest.uhn.ca/baseDstu2/");
+                var allergyIntolerance = new AllergyIntolerance(Constants.HapiFhirServerBase);
 
                 var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
                 int patientID;

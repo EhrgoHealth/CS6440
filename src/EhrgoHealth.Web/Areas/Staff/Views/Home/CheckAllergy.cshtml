@@ -1,0 +1,43 @@
+﻿@model EhrgoHealth.Web.Areas.Staff.Models.Medicine
+@{
+    ViewBag.Title = "Check For Medication Allergy";
+}
+
+<h1>Check Images for Medication Allergies</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <img src="~/Content/Images/Medicine.jpg" width="200" height="150" />
+    </div>
+
+    <div class="col-md-8">
+        @using (Html.BeginForm("CheckVerification", "Home"))
+        {
+            <div class="row">
+                Enter User Fhir ID
+            </div>
+            <div class="row">
+                @Html.TextBoxFor(m => m.UserFhirID)
+            </div>
+            <div class="row">
+                Enter Medication Name (i.e. Hydrocodone)
+            </div>
+            <div class="row">
+                
+                @Html.TextBoxFor(m => m.Name)
+            </div>
+           
+            <div class="row">
+
+            </div>
+            <div class="row">
+                <input type="submit" value="Check Medicine" />
+            </div>
+            
+        }
+
+
+
+    </div>
+</div>
+

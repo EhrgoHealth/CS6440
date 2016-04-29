@@ -9,7 +9,9 @@ namespace EhrgoHealth
 
         public const string IndianaFhirServerPatientBaseUrl = "Patient/";
         public const string FitbitClaimsToken = "accessToken:fitbit";
-        
+
+        public const string HapiFhirServerBase = "http://fhirtest.uhn.ca/baseDstu2/";
+
 
         //Medications we support
         public const string HYDROCODONE = "hydrocodone"; //Narcotic Allergy

@@ -282,6 +282,7 @@
     <Compile Include="Areas\Staff\Controllers\EhrController.cs" />
     <Compile Include="Areas\Staff\Controllers\HomeController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffBaseController.cs" />
+    <Compile Include="Areas\Staff\Models\Medicine.cs" />
     <Compile Include="Areas\Staff\Models\PatientDataViewModel.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Areas\Staff\Models\PatientData.cs" />
@@ -351,6 +352,8 @@
     <Content Include="Areas\Patient\Views\Home\History.cshtml" />
     <Content Include="Areas\Patient\Views\Home\CheckAllergy.cshtml" />
     <Content Include="Areas\Patient\Views\Home\CheckVerification.cshtml" />
+    <Content Include="Areas\Staff\Views\Home\CheckAllergy.cshtml" />
+    <Content Include="Areas\Staff\Views\Home\CheckVerification.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
