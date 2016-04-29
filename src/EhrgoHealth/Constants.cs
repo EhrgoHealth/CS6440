@@ -32,11 +32,11 @@ namespace EhrgoHealth
         //http://www.icd10data.com/ICD10CM/Codes/Z00-Z99/Z77-Z99/Z88-/Z88.5
         public static readonly IDictionary<string, List<string>> ALLERGY_LOOKUP = new Dictionary<string, List<string>>
         {
-            [HYDROCODONE] = new List<string> { NARCOTICS },
-            [AMOXIL] = new List<string> { PENICILLIN },
-            [ALLEGRA] = new List<string> { LACTOSE_INTOLERANCE },
-            [TEGRETOL] = new List<string> { ANTICONVULSANT },
-            [ALLEGRA] = new List<string> { SULFONAMIDES }
+            {HYDROCODONE, new List<string> { NARCOTICS }},
+            {AMOXIL, new List<string> { PENICILLIN }},
+            {ALLEGRA, new List<string> { LACTOSE_INTOLERANCE }},
+            {TEGRETOL, new List<string> { ANTICONVULSANT }},
+            {ALLEGRA, new List<string> { SULFONAMIDES }}
         };  
     }
 }

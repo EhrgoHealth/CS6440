@@ -12,7 +12,7 @@ namespace System.Linq
         {
             foreach(T item in enumeration)
             {
-                action?.Invoke(item);
+                action.Invoke(item);
             }
         }
     }
