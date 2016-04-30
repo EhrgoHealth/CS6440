@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Hl7.Fhir.Model.Medication>
+
+<table class="table medicationTable">
+    <tr>
+        <th>Medications</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Code.Coding[0].CodeElement.Value
+            </td>
+        </tr>
+    }
+</table>

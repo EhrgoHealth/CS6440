@@ -15,7 +15,7 @@ namespace EhrgoHealth.Web.Models
         //for now assume 1 ehr (its easier that way)
         public string FhirPatientId { get; set; }
 
-        public string FhirEndpoint { get; set; } = Constants.IndianaFhirServerBase;
+        public string FhirEndpoint { get; set; } = Constants.HapiFhirServerBase;
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

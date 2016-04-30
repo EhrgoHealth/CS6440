@@ -14,6 +14,13 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
 {
     public class EhrController : Controller
     {
+        private readonly ApplicationUserManager userManager;
+
+        public EhrController(ApplicationUserManager userManager)
+        {
+            this.userManager = userManager;
+        }
+
         // GET: Staff/Ehr
         public ActionResult Index()
         {
@@ -32,24 +39,24 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
             using(var dbcontext = new ApplicationDbContext())
             {
                 // Should be FhirID
-                var user = dbcontext.Users.FirstOrDefault(a => a.Id == id);
+                var user = await userManager.FindByIdAsync(id);
                 if(user == null)
                 {
                     return new HttpStatusCodeResult(404, "Patient not found");
                 }
+
+                var client = new FhirClient(Constants.HapiFhirServerBase);
                 if(string.IsNullOrWhiteSpace(user.FhirPatientId))
                 {
-                    //todo: figure out what to show if the patient has no fhir data setup
+                    var result = client.Create(new Hl7.Fhir.Model.Patient() { });
+                    user.FhirPatientId = result.Id;
+                    await userManager.UpdateAsync(user);
                 }
-                else
-                {
-                }
-                var client = new FhirClient(Constants.IndianaFhirServerBase);
-                var patientData = client.Read<Hl7.Fhir.Model.Patient>(Constants.IndianaFhirServerPatientBaseUrl + user.FhirPatientId);
+                var patientData = client.Read<Hl7.Fhir.Model.Patient>(Constants.PatientBaseUrl + user.FhirPatientId);
 
-                var meds = await GetMedicationDataForPatientAsync(id, client);
+                var meds = await GetMedicationDataForPatientAsync(user.FhirPatientId, client);
                 var viewModel = new PatientData() { Medications = meds, Patient = patientData };
-                return View();
+                return View(viewModel);
                 //var allergies = new AllergyIntolerance(Constants.IndianaFhirServerBase).GetListOfMedicationAllergies(id, meds.Select(a=>a.))
             }
         }
@@ -59,19 +66,34 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
             var mySearch = new SearchParams();
             mySearch.Parameters.Add(new Tuple<string, string>("patient", patientId));
 
-            //Query the fhir server with search parameters, we will retrieve a bundle
-            var searchResultResponse = await Task.Run(() => client.Search<Hl7.Fhir.Model.MedicationOrder>(mySearch));
-
-            //There is an array of "entries" that can return. Get a list of all the entries.
-            return
-                searchResultResponse
-                    .Entry
-                        .AsParallel() //as parallel since we are making network requests
-                        .Select(entry =>
-                        {
-                            var medOrders = client.Read<MedicationOrder>("MedicationOrder/" + entry.Resource.Id);
-                            return client.Read<Medication>(((ResourceReference)medOrders.Medication).Reference);
-                        }).ToList(); //tolist to force the queries to occur now
+            try
+            {
+                //Query the fhir server with search parameters, we will retrieve a bundle
+                var searchResultResponse = await Task.Run(() => client.Search<Hl7.Fhir.Model.MedicationOrder>(mySearch));
+                //There is an array of "entries" that can return. Get a list of all the entries.
+                return
+                    searchResultResponse
+                        .Entry
+                            .AsParallel() //as parallel since we are making network requests
+                            .Select(entry =>
+                            {
+                                var medOrders = client.Read<MedicationOrder>("MedicationOrder/" + entry.Resource.Id);
+                                var safeCast = (medOrders?.Medication as ResourceReference)?.Reference;
+                                if(string.IsNullOrWhiteSpace(safeCast)) return null;
+                                return client.Read<Medication>(safeCast);
+                            })
+                            .Where(a => a != null)
+                            .ToList(); //tolist to force the queries to occur now
+            }
+            catch(AggregateException e)
+            {
+                throw e.Flatten();
+            }
+            catch(FhirOperationException)
+            {
+                // if we have issues we likely got a 404 and thus have no medication orders...
+                return new List<Medication>();
+            }
         }
 
         [HttpPost]
@@ -113,7 +135,7 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 //patientID (done), medicationName, system, and display
 
                 //First let us create the FHIR client
-                var fhirClient = new FhirClient(Constants.IndianaFhirServerBase);
+                var fhirClient = new FhirClient(Constants.HapiFhirServerBase);
 
                 //First we need to create our medication
                 var medication = new Medication();

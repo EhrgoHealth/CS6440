@@ -364,6 +364,7 @@
     <Content Include="Areas\Staff\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Staff\Views\Ehr\Index.cshtml" />
     <Content Include="Areas\Staff\Views\Ehr\SearchResultsPartialView.cshtml" />
+    <Content Include="Areas\Staff\Views\Ehr\Details.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -418,6 +419,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_MedicationHistory.cshtml" />
+    <Content Include="Views\Shared\MedicationTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

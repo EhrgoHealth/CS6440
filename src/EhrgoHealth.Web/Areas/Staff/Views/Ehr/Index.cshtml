@@ -2,7 +2,7 @@
 @using(Ajax.BeginForm("Search", new AjaxOptions() { UpdateTargetId = "Result" }))
 {
     <div class="row">
-        <h2>Search For Patients</h2>
+        <h2>Search For Patients <small>By Id or Username</small></h2>
         <div id="custom-search-input">
             <div class="input-group col-md-12">
                 <input type="text" name="patientSearch" class="search-query form-control" placeholder="Search" />
@@ -14,10 +14,9 @@
             </div>
         </div>
     </div>
- 
+
 }
 <div class="row">
     <div class="col-md-12 well-lg" id="Result">
-
     </div>
 </div>

@@ -16,13 +16,22 @@
     <div class="col-md-4">
         <img src="~/Content/Images/EHR_illustration.jpg" width="300" height="250" />
     </div>
-    <div class="col-md-8">
+    <div class="col-md-4">
         <h2>Update/Check Plan</h2>
         <p>
             Check new treatment plan against patient data
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("Check Medication", "CheckAllergy", "Home") </a>
+            @Html.ActionLink("Check Medication", "CheckAllergy", "Home", null, new { @Class = "btn btn-default" })
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Ehr</h2>
+        <p>
+            Assign a patient medications
+        </p>
+        <p>
+            @Html.ActionLink("Goto Ehr", "Index", "Ehr", null, new { @Class = "btn btn-default" })
         </p>
     </div>
 </div>
