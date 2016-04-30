@@ -93,8 +93,10 @@ namespace EhrgoHealth.Web
                 var fhirClient = new FhirClient(Constants.HapiFhirServerBase);
 
                 //First we need to create our medication
-                var medication = new Medication();
-                medication.Code = new CodeableConcept("ICD-10", medicationName);
+                var medication = new Medication
+                {
+                    Code = new CodeableConcept("ICD-10", medicationName)
+                };
 
                 //Now we need to push this to the server and grab the ID
                 var medicationResource = fhirClient.Create<Hl7.Fhir.Model.Medication>(medication);
@@ -117,8 +119,6 @@ namespace EhrgoHealth.Web
 
                 //Push the local patient resource to the FHIR Server and expect a newly assigned ID
                 var medicationOrderResource = fhirClient.Create<Hl7.Fhir.Model.MedicationOrder>(fhirMedicationOrder);
-
-
             }
         }
     }
