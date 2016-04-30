@@ -1,14 +1,8 @@
-﻿@model EhrgoHealth.Web.Areas.Patient.Models.Medicine
+﻿@model EhrgoHealth.Web.Areas.Patient.Models.PatientData
 
-@{
-    ViewBag.Title = "Data Page";
-}
-
-
-<h2>Welcome Patient for checking things!</h2>
-
-<p>
-
-    Current Medicine = @Html.Raw(Model.Name.ToUpper());
-</p>
-
+<div>
+    <h4>Patient Data</h4>
+    <hr />
+    <dl class="dl-horizontal"></dl>
+    @Html.Partial("MedicationTable", Model.Medications)
+</div>

@@ -1,0 +1,13 @@
+﻿@model EhrgoHealth.Web.Areas.Patient.Models.Medicine
+
+@{
+    ViewBag.Title = "Check For Medication Allergy";
+}
+<h1>Added Medication @Html.Raw(Model.Name) to history.</h1>
+
+<p>
+    <a class="btn btn-default" @Html.ActionLink("Go To Current Medication List", "History", "Home") </a>
+</p>
+<p>
+    <a class="btn btn-default" @Html.ActionLink("Go Back To Patient Home", "Index", "Home") </a>
+</p>

@@ -14,7 +14,7 @@ else
     <h1>PASS!</h1>
     <p>There is no matching record for <b>@Html.Raw(Model.Name)</b> in the FHIR database! </p>
 
-    using (Html.BeginForm("History", "Home"))
+    using (Html.BeginForm("AddMedicine", "Home"))
     {
         <input type="text" name="Name" value="@Html.Raw(Model.Name.ToUpper())" readonly="readonly" />
         <input type="submit" value="Add Medicine to Patient List" />

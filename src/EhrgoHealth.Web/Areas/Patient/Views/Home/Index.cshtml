@@ -6,7 +6,7 @@
     .jumbotron {
         padding-top: 5px;
         padding-bottom: 5px;
-        margin-bottom: 5px; 
+        margin-bottom: 5px;
         color: inherit;
         background-color: #1186C3;
    }
@@ -14,7 +14,7 @@
 
 <div class="jumbotron">
     <h1 style="text-align:center"><font color="#FFFFFF">Ehrgo Health</font></h1>
-    <h2 style="text-align:center"><font color="#FFFFFF">Patient Portal</font></h2>    
+    <h2 style="text-align:center"><font color="#FFFFFF">Patient Portal</font></h2>
     <p class="lead">@ViewBag.Message</p>
 </div>
 <p>
@@ -31,7 +31,7 @@
             Check new drug against existing treatment plans and update allergy information
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("Verify Medication", "CheckAllergy", "Home") </a>
+            <a class="btn btn-default" @Html.ActionLink("Verify and Update Medication", "CheckAllergy", "Home") </a>
         </p>
     </div>
     <div class="col-sm-3">
@@ -40,7 +40,7 @@
             View and update current allergy and medication information
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("View or Update History", "History", "Home") </a>
+            <a class="btn btn-default" @Html.ActionLink("View Current Medication List", "History", "Home") </a>
         </p>
     </div>
     <div class="col-sm-3">
