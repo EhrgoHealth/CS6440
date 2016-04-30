@@ -1,0 +1,28 @@
+﻿@model IEnumerable<EhrgoHealth.Web.Areas.Staff.Models.SearchResultsItem>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatientName)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { Id = item.PatientId })
+            </td>
+        </tr>
+    }
+</table>

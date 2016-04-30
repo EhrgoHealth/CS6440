@@ -1,10 +1,12 @@
-﻿using EhrgoHealth.Web.Models;
+﻿using EhrgoHealth.Web.Areas.Staff.Models;
+using EhrgoHealth.Web.Models;
 using Hl7.Fhir;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,12 +27,12 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
         /// </summary>
         /// <param name="id">id is a patient id</param>
         /// <returns></returns>
-        public ActionResult Details(string id)
+        public async Task<ActionResult> Details(string id)
         {
             using(var dbcontext = new ApplicationDbContext())
             {
                 // Should be FhirID
-                var user = dbcontext.Users.FirstOrDefault(a => a.FhirPatientId == id);
+                var user = dbcontext.Users.FirstOrDefault(a => a.Id == id);
                 if(user == null)
                 {
                     return new HttpStatusCodeResult(404, "Patient not found");
@@ -39,59 +41,55 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 {
                     //todo: figure out what to show if the patient has no fhir data setup
                 }
+                else
+                {
+                }
                 var client = new FhirClient(Constants.IndianaFhirServerBase);
                 var patientData = client.Read<Hl7.Fhir.Model.Patient>(Constants.IndianaFhirServerPatientBaseUrl + user.FhirPatientId);
-                //Returns a list of medications
-                //Probably should be its own method
-                IList<string> listOfMedications = new List<string>();
 
-                //First we need to set up the Search Param Object
-                var mySearch = new SearchParams();
+                var meds = await GetMedicationDataForPatientAsync(id, client);
+                var viewModel = new PatientData() { Medications = meds, Patient = patientData };
+                return View();
+                //var allergies = new AllergyIntolerance(Constants.IndianaFhirServerBase).GetListOfMedicationAllergies(id, meds.Select(a=>a.))
+            }
+        }
 
-                //Create a tuple containing search parameters for SearchParam object
-                // equivalent of "MedicationOrder?patient=6116";
-                var mySearchTuple = new Tuple<string, string>("patient", id);
-                mySearch.Parameters.Add(mySearchTuple);
+        private static async Task<List<Medication>> GetMedicationDataForPatientAsync(string patientId, FhirClient client)
+        {
+            var mySearch = new SearchParams();
+            mySearch.Parameters.Add(new Tuple<string, string>("patient", patientId));
 
-                //Query the fhir server with search parameters, we will retrieve a bundle
-                var searchResultResponse = client.Search<Hl7.Fhir.Model.MedicationOrder>(mySearch);
+            //Query the fhir server with search parameters, we will retrieve a bundle
+            var searchResultResponse = await Task.Run(() => client.Search<Hl7.Fhir.Model.MedicationOrder>(mySearch));
 
-                //There is an array of "entries" that can return. Get a list of all the entries.
-                var listOfentries = searchResultResponse.Entry;
+            //There is an array of "entries" that can return. Get a list of all the entries.
+            return
+                searchResultResponse
+                    .Entry
+                        .AsParallel() //as parallel since we are making network requests
+                        .Select(entry =>
+                        {
+                            var medOrders = client.Read<MedicationOrder>("MedicationOrder/" + entry.Resource.Id);
+                            return client.Read<Medication>(((ResourceReference)medOrders.Medication).Reference);
+                        }).ToList(); //tolist to force the queries to occur now
+        }
 
-                //If no MedicationOrders associated with the patient
-                if(listOfentries.Count == 0)
-                    return null; //Not sure what we want to return
-
-                //Initializing in for loop is not the greatest.
-                foreach(var entry in listOfentries)
+        [HttpPost]
+        public ActionResult Search(string patientSearch)
+        {
+            using(var dbcontext = new ApplicationDbContext())
+            {
+                var results = dbcontext
+                    .Users
+                    .Where(a => a.UserName.Contains(patientSearch) || a.Id == patientSearch)
+                    .Select(a => new SearchResultsItem() { PatientId = a.Id, PatientName = a.UserName })
+                    .ToList();
+                if(results.Count < 1)
                 {
-                    //The entries we have, do not contain the medication reference.
-
-                    var medicationOrderResource = client.Read<Hl7.Fhir.Model.MedicationOrder>("MedicationOrder/" + entry.Resource.Id);
-
-                    //Casted this because ((ResourceReference)medicationOrderResource.Medication).Reference
-                    //is not pretty as a parameter
-                    var castedResourceReference = (ResourceReference)medicationOrderResource.Medication;
-
-                    var medicationResource = client.Read<Hl7.Fhir.Model.Medication>(castedResourceReference.Reference);
-
-                    var castedCodeableConcept = medicationResource.Code;
-                    var listOfCodes = castedCodeableConcept.Coding;
-
-                    //Now let us add the medication itself to our list
-                    foreach(var c in listOfCodes)
-                    {
-                        listOfMedications.Add(c.Code);
-                    }
+                    return Content("<h4>No Results Found</h4>");
                 }
-
-                /**Use this for debugging if you want*/
-            }//end using statement
-
-            //todo: create view probably some kind of basic ehr
-            throw new NotImplementedException();
-            return View();
+                return View("SearchResultsPartialView", results);
+            }
         }
 
         public ActionResult AddMedicationOrder(string id)

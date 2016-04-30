@@ -284,6 +284,7 @@
     <Compile Include="Areas\Staff\Controllers\StaffBaseController.cs" />
     <Compile Include="Areas\Staff\Models\Medicine.cs" />
     <Compile Include="Areas\Staff\Models\PatientDataViewModel.cs" />
+    <Compile Include="Areas\Staff\Models\SearchResultsItem.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Areas\Staff\Models\PatientData.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
@@ -326,6 +327,7 @@
     <Content Include="Content\Images\EHR_Patient.jpg" />
     <Content Include="Content\Images\EHR_Staff.png" />
     <Content Include="Content\Images\Medicine.jpg" />
+    <Content Include="Content\SearchBox.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -356,6 +358,8 @@
     <Content Include="Areas\Staff\Views\Home\CheckVerification.cshtml" />
     <Content Include="Areas\Staff\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Staff\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Staff\Views\Ehr\Index.cshtml" />
+    <Content Include="Areas\Staff\Views\Ehr\SearchResultsPartialView.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -365,6 +369,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -411,7 +417,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Staff\Views\Ehr\" />
     <Folder Include="Areas\Staff\Views\Register\" />
     <Folder Include="Areas\Staff\Views\StaffBase\" />
     <Folder Include="Views\AuthorizationBase\" />
