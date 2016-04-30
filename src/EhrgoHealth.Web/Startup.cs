@@ -1,9 +1,4 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.Mvc;
 using EhrgoHealth.Web.App_Start;
 using EhrgoHealth.Web.Models;
@@ -12,6 +7,12 @@ using Microsoft.Owin;
 using Owin;
 using Owin.Security.Providers.Fitbit;
 using Owin.Security.Providers.Fitbit.Provider;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 [assembly: OwinStartupAttribute(typeof(EhrgoHealth.Web.Startup))]
 
