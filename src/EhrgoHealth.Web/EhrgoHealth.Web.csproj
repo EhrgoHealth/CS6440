@@ -323,6 +323,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\computer.png" />
     <Content Include="Content\Images\doctor_clipboard.png" />
     <Content Include="Content\Images\EHR_illustration.jpg" />
     <Content Include="Content\Images\EHR_illustration2.png" />
@@ -331,6 +332,7 @@
     <Content Include="Content\Images\fitbitlogo.png" />
     <Content Include="Content\Images\Medicine.jpg" />
     <Content Include="Content\Images\notepad.png" />
+    <Content Include="Content\Images\prescription_bottle.png" />
     <Content Include="Content\Images\rx.png" />
     <Content Include="Content\SearchBox.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
