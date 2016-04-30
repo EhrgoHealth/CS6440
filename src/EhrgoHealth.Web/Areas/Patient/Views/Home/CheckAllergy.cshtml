@@ -4,7 +4,8 @@
 }
 
 <h1>Check Images for Medication Allergies</h1>
-
+<hr />
+<br />
 <div class="row">
     <div class="col-md-4">
         <img src="~/Content/Images/Medicine.jpg" width="200" height="150" />
@@ -14,6 +15,7 @@
         @using (Html.BeginForm("CheckVerification", "Home"))
         {
             <div class="row">
+                <p>Enter medication to check:</p>
             </div>
             <div class="row">
                 @Html.TextBoxFor(m => m.Name)
