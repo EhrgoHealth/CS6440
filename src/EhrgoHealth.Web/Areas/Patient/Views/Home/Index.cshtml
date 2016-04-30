@@ -1,21 +1,33 @@
 ﻿@{
     ViewBag.Title = "Patient Home Page";
 }
-<div class="jumbotron">
-    <h1><font color="#4863A0"><i>Ehrgo</i> Health</font></h1>
 
+ <style>
+    .jumbotron {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        margin-bottom: 30px;
+        color: inherit;
+        background-color: #1186C3;
+   }
+</style>
+
+<div class="jumbotron">
+    <h1 style="text-align:center"><font color="#FFFFFF">Ehrgo Health</font></h1>
+    <h2 style="text-align:center"><font color="#FFFFFF">Patient Portal</font></h2>
+    <p>
+        <h4 style="text-align:center"><i><font color="#FFFFFF">Ehrgo Health enables patients to verify new medication and track allergy history. </font></i></h4>
+    </p>
     <p class="lead">@ViewBag.Message</p>
 </div>
 
-<p>
-    <h4><i>  Ehrgo Health enables patients to verify new medication and track allergy history. </i></h4>
-</p>
+
 <div class="row">
-    <div class="col-md-4">
-        <img src="~/Content/Images/EHR_illustration.jpg" width="300" height="250" />
+    <div class="col-sm-3">
+        <img src="~/Content/Images/EHR_illustration2.png" />
     </div>
-    <div class="col-md-4">
-        <h2>Check Medication</h2>
+    <div class="col-sm-3">
+        <h3><img src="~/Content/Images/rx.png" />&nbsp;Check Medication</h3>
         <p>
             Check new drug against existing treatment plans and update allergy information
         </p>
@@ -23,8 +35,8 @@
             <a class="btn btn-default" @Html.ActionLink("Verify Medication", "CheckAllergy", "Home") </a>
         </p>
     </div>
-    <div class="col-md-4">
-        <h2>Update History</h2>
+    <div class="col-sm-3">
+        <h3><img src="~/Content/Images/notepad.png" />&nbsp;Update History</h3>
         <p>
             View and update current allergy and medication information
         </p>
@@ -32,8 +44,8 @@
             <a class="btn btn-default" @Html.ActionLink("View or Update History", "History", "Home") </a>
         </p>
     </div>
-    <div class="col-md-4">
-        <h2>Import Fitbit Data</h2>
+    <div class="col-sm-3">
+        <h3><img src="~/Content/Images/fitbitlogo.png" />&nbsp;Import Fitbit Data</h3>
         <p>
             Import your fitbit food log
         </p>
