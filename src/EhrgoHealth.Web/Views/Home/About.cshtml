@@ -1,14 +1,59 @@
 ﻿@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+@*<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>*@
 
-<p>
+<div class="page-header">
+    <h1><font color="#4863A0">@ViewBag.Title Ehrgo Health</font></h1>
+</div>
+
+<div class="container">
+    <div class="jumbotron"> 
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive" style="width:100%" src="~/Content/Images/about_app.jpg" width="300" height="250" />
+            </div>
+            <div class="col-sm-8">
+                <h1>The app</h1>
+                <h2><i>@ViewBag.Message</i></h2>
+            </div>
+        </div> 
+    </div>
+</div>
+<div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive" style="width:100%" src="~/Content/Images/patient_about.jpg" width="300" height="250" />
+            </div>
+            <div class="col-sm-8">
+                <h1>For Patients</h1>
+                <h2><i>Ehrgo Health enables patients to verify new medication and track allergy history. </i></h2>
+            </div>
+        </div>  
+    </div>
+</div>
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img-circle img-responsive" style="width:100%" src="~/Content/Images/providers_about.jpg" width="300" height="250" />
+            </div>
+            <div class="col-sm-8">
+                <h1>For Providers</h1>
+                <h2><i> Ehrgo Health enables medical providers to consume data directly from the patient-maintained system </i></h2>
+            </div>
+        </div>    
+    </div>
+</div>
+
+@*<p>
     <h4><i>  Ehrgo Health enables patients to verify new medication and track allergy history. </i></h4>
 </p>
 
 
 <p>
     <h4><i> Ehrgo Health enables medical providers to consume data directly from the patient-maintained system </i></h4>
-</p>
+</p>*@
