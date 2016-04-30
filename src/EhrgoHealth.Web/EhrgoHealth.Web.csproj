@@ -371,6 +371,7 @@
     <Content Include="Areas\Staff\Views\Ehr\SearchResultsPartialView.cshtml" />
     <Content Include="Areas\Staff\Views\Ehr\Details.cshtml" />
     <Content Include="Areas\Patient\Views\Home\CheckVerification.cshtml" />
+    <Content Include="Areas\Staff\Views\Home\Details.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />

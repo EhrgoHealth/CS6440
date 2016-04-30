@@ -8,6 +8,7 @@ using EhrgoHealth.Data;
 using Fitbit.Api.Portable;
 using Microsoft.AspNet.Identity;
 using EhrgoHealth.Web.Models;
+using EhrgoHealth.Web.Areas.Staff.Models;
 
 namespace EhrgoHealth.Web.Areas.Staff.Controllers
 {
@@ -55,6 +56,27 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 med.Found = allergyIntolerance.IsAllergicToMedications(patientID, medications);
             }
             return View(med);
+        }
+
+        public async Task<ActionResult> Details(Models.Medicine med)
+        {
+            EhrBase.AddMedicationOrder(User.Identity.GetUserId(), med.Name);
+
+            using (var dbcontext = new ApplicationDbContext())
+            {
+                var user = dbcontext.Users.FirstOrDefault(a => a.FhirPatientId == med.UserFhirID);
+
+                var tuple = await EhrBase.GetMedicationDetails(user.Id, userManager);
+                if (tuple.Item1 == null)
+                {
+                    return new HttpStatusCodeResult(404, "Patient not found");
+                }
+                else
+                {
+                    var viewModel = new PatientData() { Medications = tuple.Item1, Patient = tuple.Item2 };
+                    return View(viewModel);
+                }
+            }
         }
    
     }
