@@ -382,6 +382,7 @@
     <Content Include="Areas\Staff\Views\Home\Details.cshtml" />
     <Content Include="Areas\Patient\Views\Home\AddAllergy.cshtml" />
     <Content Include="Areas\Patient\Views\Home\AllergyHistory.cshtml" />
+    <None Include="Properties\PublishProfiles\ehrgo - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -465,6 +466,9 @@
     <EmbeddedResource Include="Migrations\201605010048018_2.resx">
       <DependentUpon>201605010048018_2.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

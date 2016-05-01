@@ -1,4 +1,5 @@
 ﻿using EhrgoHealth.Web.Models;
+using Hl7.Fhir.Rest;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,9 @@ namespace EhrgoHealth.Web.Controllers
         {
             if(ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FhirPatientId = model.FHIRID};
+                var client = new FhirClient(Constants.HapiFhirServerBase);
+                var fhirResult = client.Create(new Hl7.Fhir.Model.Patient() { });
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FhirPatientId = fhirResult.Id };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if(result.Succeeded)
                 {

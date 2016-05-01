@@ -91,10 +91,7 @@ namespace EhrgoHealth.Web.Models
         [Display(Name = "Account Level")]
         public AccountLevel Account_Level { get; set; }
 
-        [Required(ErrorMessage = "The user must enter their personal or practice FHIR ID")]
-        [Display(Name = "FHIR ID")]
         public string FHIRID { get; set; }
-
     }
 
     public class ResetPasswordViewModel
