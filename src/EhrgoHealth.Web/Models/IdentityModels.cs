@@ -11,12 +11,12 @@ namespace EhrgoHealth.Web.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual ICollection<EhrgoHealth.Data.FoodLog> FoodLogs { get; set; }
+        public virtual ICollection<AllergicMedications> AllergicMedications { get; set; }
 
         //for now assume 1 ehr (its easier that way)
         public string FhirPatientId { get; set; }
 
         public string FhirEndpoint { get; set; } = Constants.HapiFhirServerBase;
-        public virtual ICollection<string> AllergicMedications { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -25,6 +25,12 @@ namespace EhrgoHealth.Web.Models
             // Add custom user claims here
             return userIdentity;
         }
+    }
+
+    public class AllergicMedications
+    {
+        public int Id { get; set; }
+        public string MedicationName { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

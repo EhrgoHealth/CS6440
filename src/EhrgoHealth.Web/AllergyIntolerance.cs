@@ -79,7 +79,7 @@ namespace EhrgoHealth.Web
         public async Task<bool> IsAllergicToMedications(int patientID, string applicationUserId, IList<String> medications)
         {
             var user = await userManager.FindByIdAsync(applicationUserId);
-            if(user.AllergicMedications.Intersect(medications).Any())
+            if(user.AllergicMedications.Select(a => a.MedicationName).Intersect(medications).Any())
             {
                 return true;
             }

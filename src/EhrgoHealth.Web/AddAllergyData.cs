@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security;
+﻿using EhrgoHealth.Web.Models;
+using Microsoft.Owin.Security;
 using Owin.Security.Providers.Fitbit;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,9 @@ namespace EhrgoHealth.Web
         public async Task AddAllergyToMedication(string medicationName, string applicationUserId)
         {
             var user = await userManager.FindByIdAsync(applicationUserId);
-            if(!user.AllergicMedications.Any(a => a == medicationName))
+            if(!user.AllergicMedications.Any(a => a.MedicationName == medicationName))
             {
-                user.AllergicMedications.Add(medicationName);
+                user.AllergicMedications.Add(new AllergicMedications() { MedicationName = medicationName });
                 await userManager.UpdateAsync(user);
             }
         }
@@ -32,7 +33,7 @@ namespace EhrgoHealth.Web
         public async Task RemoveAllergyToMedication(string medicationName, string applicationUserId)
         {
             var user = await userManager.FindByIdAsync(applicationUserId);
-            var matches = user.AllergicMedications.Where(a => a == medicationName).ToList();
+            var matches = user.AllergicMedications.Where(a => a.MedicationName == medicationName).ToList();
             for(int i = 0; i < matches.Count; i++)
             {
                 user.AllergicMedications.Remove(matches[i]);
@@ -42,7 +43,7 @@ namespace EhrgoHealth.Web
         public async Task<List<string>> GetAllergyList(string applicationUserId)
         {
             var user = await userManager.FindByIdAsync(applicationUserId);
-            return user.AllergicMedications.ToList();
+            return user.AllergicMedications.Select(a => a.MedicationName).ToList();
         }
     }
 }
