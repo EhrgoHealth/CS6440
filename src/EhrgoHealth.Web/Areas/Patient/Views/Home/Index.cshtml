@@ -25,7 +25,7 @@
     <div class="col-sm-3">
         <img src="~/Content/Images/EHR_illustration2.png" />
     </div>
-    <div class="row">
+ <!--   <div class="row"> -->
     <div class="col-sm-3">
         <h3><img src="~/Content/Images/rx.png" />&nbsp;Check Medication</h3>
         <p>
@@ -54,24 +54,28 @@
         </p>
     </div>
         </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <h3><img src="~/Content/Images/rx.png" />&nbsp;Check Medication</h3>
-            <p>
-                Add medication that you are allergic to
-            </p>
-            <p>
-                <a class="btn btn-default" @Html.ActionLink("Add Medication Allergy", "AddAllergy", "Home") </a>
-            </p>
-        </div>
-        <div class="col-sm-3">
-            <h3><img src="~/Content/Images/notepad.png" />&nbsp;Update History</h3>
-            <p>
-                View and update current allergy information
-            </p>
-            <p>
-                <a class="btn btn-default" @Html.ActionLink("View Current Medication and Allergy Lists", "AllergyHistory", "Home") </a>
-            </p>
-        </div>
-    </div>
+   
+     <div class="row">
+         <div class="col-sm-3">
+         <!-- No data here. Placeholder so 2nd row lines up with first row.-->
+         </div>
+         <div class="col-sm-3">
+                 <h3><img src="~/Content/Images/excl-point.png" />&nbsp;Add Allergy</h3>
+                 <p>
+                     Add medication that you are allergic to
+                 </p>
+                 <p>
+                     <a class="btn btn-default" @Html.ActionLink("Add Medication Allergy", "AddAllergy", "Home") </a>
+                 </p>
+             </div>
+             <div class="col-sm-3">
+                 <h3><img src="~/Content/Images/list.png" />&nbsp;Allergy History</h3>
+                 <p>
+                     View and update current allergy information
+                 </p>
+                 <p>
+                     <a class="btn btn-default" @Html.ActionLink("View Current Medication and Allergy Lists", "AllergyHistory", "Home") </a>
+                 </p>
+             </div>
+         </div>
 </div>
