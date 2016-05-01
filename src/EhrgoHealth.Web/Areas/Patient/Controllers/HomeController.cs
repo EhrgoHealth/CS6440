@@ -67,8 +67,6 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
 
         public async Task<ActionResult> History()
         {
-            Hl7.Fhir.Model.Patient patient;
-
             var tuple = await EhrBase.GetMedicationDetails(User.Identity.GetUserId(), userManager);
             if(tuple.Item1 == null)
             {
@@ -94,11 +92,14 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
 
         public async Task<ActionResult> AllergyHistory(Allergy all)
         {
-            using(var dbcontext = new ApplicationDbContext())
+            var userid = this.User.Identity.GetUserId();
+            var ald = new AddAllergyData(userManager, null);
+            var ls = await ald.GetAllergyList(userid);
+            if(ls.Contains(all.MedicationName))
             {
-                var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
-                AddAllergyData ald = new AddAllergyData(userManager, authManager);
-                var ls = await ald.GetAllergyList(user.Id);
+                ls.Add(all.MedicationName);
+                await ald.AddAllergyToMedication(all.MedicationName, userid);
+            }
 
                 if (all != null)
                 {
@@ -111,10 +112,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
                 else
                     all = new Allergy();
 
-                all.AllAllergies = ls.AsEnumerable();
-
-                return View(all);
-            }
+            return View(all);
         }
     }
 }
