@@ -13,27 +13,36 @@ namespace EhrgoHealth.Web
         private ApplicationUserManager userManager;
         private IAuthenticationManager authManager;
 
-        public AddAllergyData()
-        {
-        }
-
         public AddAllergyData(ApplicationUserManager userManager, IAuthenticationManager authManager)
         {
             this.userManager = userManager;
             this.authManager = authManager;
         }
 
-        public void AddAllergyToMedication(string fhirPatientId, string medicationName)
+        public async Task AddAllergyToMedication(string medicationName, string applicationUserId)
         {
+            var user = await userManager.FindByIdAsync(applicationUserId);
+            if(!user.AllergicMedications.Any(a => a == medicationName))
+            {
+                user.AllergicMedications.Add(medicationName);
+                await userManager.UpdateAsync(user);
+            }
         }
 
-        public void RemoveAllergyToMedication(string fhirPatientId, string medicationName)
+        public async Task RemoveAllergyToMedication(string medicationName, string applicationUserId)
         {
+            var user = await userManager.FindByIdAsync(applicationUserId);
+            var matches = user.AllergicMedications.Where(a => a == medicationName).ToList();
+            for(int i = 0; i < matches.Count; i++)
+            {
+                user.AllergicMedications.Remove(matches[i]);
+            }
         }
 
-        public IEnumerable<string> GetAllergyList()
+        public async Task<List<string>> GetAllergyList(string applicationUserId)
         {
-            return Enumerable.Empty<string>();
+            var user = await userManager.FindByIdAsync(applicationUserId);
+            return user.AllergicMedications.ToList();
         }
     }
 }
