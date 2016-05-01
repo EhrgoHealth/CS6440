@@ -93,25 +93,18 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
         public async Task<ActionResult> AllergyHistory(Allergy all)
         {
             var userid = this.User.Identity.GetUserId();
-            var ald = new AddAllergyData(userManager, null);
+            var ald = new AddAllergyData(userManager, authManager);
             var ls = await ald.GetAllergyList(userid);
-            if(ls.Contains(all.MedicationName))
+
+            if(all != null)
             {
                 ls.Add(all.MedicationName);
                 await ald.AddAllergyToMedication(all.MedicationName, userid);
             }
-
-                if (all != null)
-                {
-                    if (ls.Contains(all.MedicationName))
-                    {
-                        ls.Add(all.MedicationName);
-                        await ald.AddAllergyToMedication(user.FhirPatientId, all.MedicationName);
-                    }
-                }
-                else
-                    all = new Allergy();
-
+            else
+            {
+                all = new Allergy();
+            }
             return View(all);
         }
     }
