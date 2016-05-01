@@ -14,7 +14,7 @@
         @using (Html.BeginForm("AllergyHistory", "Home"))
             {
             <div class="row">
-                <p>Enter medication to check:</p>
+                <p>Enter allergic medication:</p>
             </div>
                 <div class="row">
                     @Html.TextBoxFor(m => m.MedicationName)
@@ -22,7 +22,7 @@
                 <div class="row">
                 </div>
                 <div class="row">
-                    <input type="submit" value="Check Medicine" />
+                    <input type="submit" value="Add Allergy" />
                 </div>
 
         }
