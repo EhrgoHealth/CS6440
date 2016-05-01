@@ -36,9 +36,8 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
         /// <returns></returns>
         public async Task<ActionResult> Details(string id)
         {
-            
             var tuple = await EhrBase.GetMedicationDetails(id, userManager);
-            if (tuple.Item1 == null)
+            if(tuple.Item1 == null)
             {
                 return new HttpStatusCodeResult(404, "Patient not found");
             }
@@ -46,11 +45,10 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
             {
                 var viewModel = new PatientData() { Medications = tuple.Item1, Patient = tuple.Item2 };
                 return View(viewModel);
-            }         
-                //var allergies = new AllergyIntolerance(Constants.IndianaFhirServerBase).GetListOfMedicationAllergies(id, meds.Select(a=>a.))            
+            }
+            //var allergies = new AllergyIntolerance(Constants.IndianaFhirServerBase).GetListOfMedicationAllergies(id, meds.Select(a=>a.))
         }
 
-       
         [HttpPost]
         public ActionResult Search(string patientSearch)
         {
@@ -59,7 +57,7 @@ namespace EhrgoHealth.Web.Areas.Staff.Controllers
                 var results = dbcontext
                     .Users
                     .Where(a => a.UserName.Contains(patientSearch) || a.FhirPatientId == patientSearch || a.Id == patientSearch)
-                    .Select(a => new SearchResultsItem() { PatientId = a.Id, PatientName = a.UserName })
+                    .Select(a => new SearchResultsItem() { PatientId = a.Id, PatientName = a.UserName, FhirId = a.FhirPatientId })
                     .ToList();
                 if(results.Count < 1)
                 {
