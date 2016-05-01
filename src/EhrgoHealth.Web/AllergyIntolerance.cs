@@ -173,5 +173,37 @@ namespace EhrgoHealth.Web
 
             return listOfAllergyIntoleranceIDs;
         }
+
+        /// <summary>
+        /// Adds a single allergy intolerance code to a specific patientID, if it does not already exist on the FHIR server.
+        /// Returns false if you are attempting to an allergy intolerance code that already exists on the FHIR server.
+        /// </summary>
+        /// <param name="patientID"> Unique ID of patient for FHIR server</param>
+        public Boolean AddAllergyDataForPatientToFHIR(string patientID, string allergyIntoleranceCode)
+        {
+            Boolean addedAllergySuccessfully = false;
+            var allergiesOnFHIRServer = GetPatientsKnownAllergies(Int32.Parse(patientID));
+            if(!allergiesOnFHIRServer.ContainsKey(allergyIntoleranceCode))
+        {
+                //Create an empty Allergy Intolerance resource and then assign attributes
+                Hl7.Fhir.Model.AllergyIntolerance fhirAllergyIntolerance = new Hl7.Fhir.Model.AllergyIntolerance();
+                Coding codingList = new Coding();
+                codingList.Code = allergyIntoleranceCode;
+                fhirAllergyIntolerance.Substance = new CodeableConcept();
+                fhirAllergyIntolerance.Substance.Coding.Add(codingList);
+
+                // Hl7.Fhir.Model.Patient fhirPatient = fhirClient.Read<Hl7.Fhir.Model.Patient>("Patient/21613");
+                fhirAllergyIntolerance.Patient = new ResourceReference();
+                fhirAllergyIntolerance.Patient.Reference = "Patient/" + patientID;
+
+                //Push the local patient resource to the FHIR Server and expect a newly assigned ID
+                var allergyResource = fhirClient.Create<Hl7.Fhir.Model.AllergyIntolerance>(fhirAllergyIntolerance);
+
+                addedAllergySuccessfully = true;
+
+            }
+
+            return addedAllergySuccessfully;
+        }
     }
 }
