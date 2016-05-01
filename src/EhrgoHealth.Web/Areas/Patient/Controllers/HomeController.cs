@@ -7,20 +7,21 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+
+using Microsoft.Owin.Security;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Owin.Security;
 
 namespace EhrgoHealth.Web.Areas.Patient.Controllers
 {
     public class HomeController : PatientBaseController
     {
         private ApplicationUserManager userManager;
-        private IAuthenticationManager authManager;
         private IAuthenticationManager authManager;
 
         public HomeController(ApplicationUserManager userManager, IAuthenticationManager authManager)
@@ -85,22 +86,21 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             EhrBase.AddMedicationOrder(User.Identity.GetUserId(), med.Name);
             return View(med);
         }
+
         public ActionResult AddAllergy()
         {
-
             return View();
         }
 
-        public ActionResult AllergyHistory(Allergy all)
+        public async Task<ActionResult> AllergyHistory(Allergy all)
         {
-            using (var dbcontext = new ApplicationDbContext())
+            using(var dbcontext = new ApplicationDbContext())
             {
-                                
-            var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
+                var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
                 AddAllergyData ald = new AddAllergyData(userManager, null);
-                var ls = ald.GetAllergyList().ToList();
+                var ls = await ald.GetAllergyList(user.Id);
 
-                if (ls.Contains(all.MedicationName))
+                if(ls.Contains(all.MedicationName))
                 {
                     ls.Add(all.MedicationName);
                     ald.AddAllergyToMedication(user.FhirPatientId, all.MedicationName);
