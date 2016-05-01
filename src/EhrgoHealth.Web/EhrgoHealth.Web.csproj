@@ -300,6 +300,10 @@
     <Compile Include="Migrations\201604101424138_1.Designer.cs">
       <DependentUpon>201604101424138_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605010048018_2.cs" />
+    <Compile Include="Migrations\201605010048018_2.Designer.cs">
+      <DependentUpon>201605010048018_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationRoleManager.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -455,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604101424138_1.resx">
       <DependentUpon>201604101424138_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605010048018_2.resx">
+      <DependentUpon>201605010048018_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

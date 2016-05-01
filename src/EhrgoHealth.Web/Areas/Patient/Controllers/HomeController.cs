@@ -96,14 +96,18 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             var ald = new AddAllergyData(userManager, authManager);
             var ls = await ald.GetAllergyList(userid);
 
-            if(all != null)
+            if(all != null && !string.IsNullOrWhiteSpace(all.MedicationName))
             {
                 ls.Add(all.MedicationName);
                 await ald.AddAllergyToMedication(all.MedicationName, userid);
+                if(all.AllAllergies == null)
+                {
+                    all.AllAllergies = ls;
+                }
             }
             else
             {
-                all = new Allergy();
+                all = new Allergy() { AllAllergies = ls };
             }
             return View(all);
         }
