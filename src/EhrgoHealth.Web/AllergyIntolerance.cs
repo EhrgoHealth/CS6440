@@ -1,4 +1,5 @@
-﻿using Hl7.Fhir.Model;
+﻿using EhrgoHealth.Web.Models;
+using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Microsoft.Owin.Security;
 using System;
@@ -76,12 +77,17 @@ namespace EhrgoHealth.Web
         /// </summary>
         /// <param name="patientID"> The patient's ID from FHIR</param>
         /// <param name="medications"> The List of medications they currently know their patient is taking</param>
-        public async Task<bool> IsAllergicToMedications(int patientID, string applicationUserId, IList<String> medications)
+        public async Task<bool> IsAllergicToMedications(int patientID, IList<String> medications)
         {
-            var user = await userManager.FindByIdAsync(applicationUserId);
-            if(user.AllergicMedications.Select(a => a.MedicationName).Intersect(medications).Any())
+            using(var db = new ApplicationDbContext())
             {
-                return true;
+                var isAllergicFromSession = db
+                    .Users
+                    .Where(a => a.FhirPatientId == patientID.ToString())
+                    .SelectMany(a => a.AllergicMedications.Select(b => b.MedicationName))
+                     .Intersect(medications)
+                     .Any();
+                if(isAllergicFromSession) return isAllergicFromSession;
             }
             //First let us fetch the known allergies of the patient.
             var returnedAllergies = new List<string>();

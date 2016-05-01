@@ -60,7 +60,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
                     return new HttpStatusCodeResult(404, "Patient does not have FHIR data");
                 }
                 var medications = new List<string>() { med.Name };
-                med.Found = await allergyIntolerance.IsAllergicToMedications(patientID, this.User.Identity.GetUserId(), medications);
+                med.Found = await allergyIntolerance.IsAllergicToMedications(patientID, medications);
             }
             return View(med);
         }
