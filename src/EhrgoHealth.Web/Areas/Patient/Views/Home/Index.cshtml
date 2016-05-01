@@ -25,22 +25,23 @@
     <div class="col-sm-3">
         <img src="~/Content/Images/EHR_illustration2.png" />
     </div>
+    <div class="row">
     <div class="col-sm-3">
         <h3><img src="~/Content/Images/rx.png" />&nbsp;Check Medication</h3>
         <p>
-            Check new drug against existing treatment plans and update allergy information
+            Check new drug against existing treatment plans and information
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("Verify and Update Medication", "CheckAllergy", "Home") </a>
+            <a class="btn btn-default" @Html.ActionLink("Update and Verify Medication", "CheckAllergy", "Home") </a>
         </p>
     </div>
     <div class="col-sm-3">
         <h3><img src="~/Content/Images/notepad.png" />&nbsp;Update History</h3>
         <p>
-            View and update current allergy and medication information
+            View and update current medication information
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("View Current Medication List", "History", "Home") </a>
+            <a class="btn btn-default" @Html.ActionLink("View Current Medication and Allergy Lists", "History", "Home") </a>
         </p>
     </div>
     <div class="col-sm-3">
@@ -51,5 +52,26 @@
         <p>
             <a class="btn btn-default" @Html.ActionLink("Goto import page", "Index", "Fitbit") </a>
         </p>
+    </div>
+        </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <h3><img src="~/Content/Images/rx.png" />&nbsp;Check Medication</h3>
+            <p>
+                Add medication that you are allergic to
+            </p>
+            <p>
+                <a class="btn btn-default" @Html.ActionLink("Add Medication Allergy", "AddAllergy", "Home") </a>
+            </p>
+        </div>
+        <div class="col-sm-3">
+            <h3><img src="~/Content/Images/notepad.png" />&nbsp;Update History</h3>
+            <p>
+                View and update current allergy information
+            </p>
+            <p>
+                <a class="btn btn-default" @Html.ActionLink("View Current Medication and Allergy Lists", "AllergyHistory", "Home") </a>
+            </p>
+        </div>
     </div>
 </div>

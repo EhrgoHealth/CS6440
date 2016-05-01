@@ -1,28 +1,24 @@
-﻿using Hl7.Fhir.Model;
-using Hl7.Fhir.Rest;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Hl7.Fhir.Rest;
+using Hl7.Fhir.Model;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace EhrgoHealth.Web
 {
     public class AllergyIntolerance
     {
-        private ApplicationUserManager userManager;
-        private IAuthenticationManager authManager;
         private FhirClient fhirClient = null;
 
-        public AllergyIntolerance(string fhirServer, ApplicationUserManager userManager, IAuthenticationManager authManager)
+
+        public AllergyIntolerance(string fhirServer)
         {
-            if(String.IsNullOrEmpty(fhirServer))
+            if (String.IsNullOrEmpty(fhirServer))
                 throw new Exception("Invalid URL passed to AllergyIntolerance Constructor");
 
             fhirClient = new FhirClient(fhirServer);
-            this.userManager = userManager;
-            this.authManager = authManager;
+
         }
 
         //The controller is expected to receive two pieces of data from an EHR.
@@ -38,10 +34,11 @@ namespace EhrgoHealth.Web
             //ToDo: Discuss with team about returning a dictionary or wrapper class, so that we can inform the EHR
             //      on both the medication conflict and the allergy code.
 
+
             //First let us fetch the known allergies of the patient.
             var returnedAllergies = new List<string>();
             var lookupPatientsKnownAllergies = GetPatientsKnownAllergies(patientID);
-            if(lookupPatientsKnownAllergies == null || lookupPatientsKnownAllergies.Count == 0)
+            if (lookupPatientsKnownAllergies == null || lookupPatientsKnownAllergies.Count == 0)
             {
                 //There are no records on the FHIR server of this patient having any allergies.
                 return returnedAllergies;
@@ -51,6 +48,7 @@ namespace EhrgoHealth.Web
             var listOfAllergicMedications = DetermineListOfAllergicMedications(medications, lookupPatientsKnownAllergies);
             return listOfAllergicMedications;
         }//end GetListOfMedicationAllergies method
+
 
         //Returns an IEnumerable of medications the patient is allergic to
         /// <summary>
@@ -76,23 +74,21 @@ namespace EhrgoHealth.Web
         /// </summary>
         /// <param name="patientID"> The patient's ID from FHIR</param>
         /// <param name="medications"> The List of medications they currently know their patient is taking</param>
-        public async Task<bool> IsAllergicToMedications(int patientID, string applicationUserId, IList<String> medications)
+        public Boolean IsAllergicToMedications(int patientID, IList<String> medications)
         {
-            var user = await userManager.FindByIdAsync(applicationUserId);
-            if(user.AllergicMedications.Intersect(medications).Any())
-            {
-                return true;
-            }
             //First let us fetch the known allergies of the patient.
             var returnedAllergies = new List<string>();
             var lookupPatientsKnownAllergies = GetPatientsKnownAllergies(patientID);
-            if(lookupPatientsKnownAllergies == null)
+            if (lookupPatientsKnownAllergies == null)
             {
                 //There are no records on the FHIR server of this patient having any allergies.
                 return false;
             }
             return IsAllergic(medications, lookupPatientsKnownAllergies);
+
         }//end IsAllergicToMedications method
+
+
 
         /// Private helper method for comparing the patient's medications against their known allergies
         /// <summary>
@@ -105,12 +101,13 @@ namespace EhrgoHealth.Web
             var currentAllergyCodeList = new List<string>();
 
             return medications
-                 .Where(a => !string.IsNullOrEmpty(a))
-                 .Select(a => a.ToLower())
+                 .Where(a=>!string.IsNullOrEmpty(a))
+                 .Select(a=>a.ToLower())
                  .Where(a => Constants.ALLERGY_LOOKUP.ContainsKey(a))
                  .Select(a => new Tuple<string, List<string>>(a, Constants.ALLERGY_LOOKUP[a]))
                  .Any(a => a.Item2.Any(c => lookupPatientsKnownAllergies.ContainsKey(c)));
         }//end IsAllergic method
+
 
         /// <summary>
         /// Returns a dictionary of patient's allergies (ICD-10-CM Diagnosis Codes) from the FHIR server
@@ -138,6 +135,7 @@ namespace EhrgoHealth.Web
             }
 
             return lookupPatientsKnownAllergies;
+
         }//end GetPatientsKnownAllergies
 
         /// <summary>
@@ -162,11 +160,12 @@ namespace EhrgoHealth.Web
             //There is an array of "entries" that can return. Get a list of all the entries.
             var listOfentries = searchResultResponse.Entry;
 
-            if(listOfentries.Count == 0)
+            if (listOfentries.Count == 0)
                 return listOfAllergyIntoleranceIDs;
 
+
             //Let us pull out only the Allery Intolerance IDs from the bundle objects
-            foreach(var entry in listOfentries)
+            foreach (var entry in listOfentries)
             {
                 listOfAllergyIntoleranceIDs.Add(entry.Resource.Id);
             }

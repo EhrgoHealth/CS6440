@@ -16,7 +16,6 @@ namespace EhrgoHealth.Web.Models
         public string FhirPatientId { get; set; }
 
         public string FhirEndpoint { get; set; } = Constants.HapiFhirServerBase;
-        public virtual ICollection<string> AllergicMedications { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
