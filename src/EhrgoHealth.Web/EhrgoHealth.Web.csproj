@@ -270,20 +270,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAllergyData.cs" />
+    <Compile Include="AllergyIntolerance.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\DatabaseBootstrap.cs" />
     <Compile Include="Areas\Patient\Controllers\FitbitController.cs" />
     <Compile Include="Areas\Patient\Controllers\HomeController.cs" />
     <Compile Include="Areas\Patient\Controllers\PatientBaseController.cs" />
+    <Compile Include="Areas\Patient\Models\Medicine.cs" />
     <Compile Include="Areas\Patient\Models\FitbitViewModel.cs" />
+    <Compile Include="Areas\Patient\Models\PatientData.cs" />
     <Compile Include="Areas\Patient\PatientAreaRegistration.cs" />
     <Compile Include="Areas\Staff\Controllers\EhrController.cs" />
     <Compile Include="Areas\Staff\Controllers\HomeController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffBaseController.cs" />
+    <Compile Include="Areas\Staff\Models\Medicine.cs" />
     <Compile Include="Areas\Staff\Models\PatientDataViewModel.cs" />
+    <Compile Include="Areas\Staff\Models\SearchResultsItem.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Areas\Staff\Models\PatientData.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
+    <Compile Include="EhrBase.cs" />
     <Compile Include="Migrations\201604101310132_InitialCreate.cs" />
     <Compile Include="Migrations\201604101310132_InitialCreate.Designer.cs">
       <DependentUpon>201604101310132_InitialCreate.cs</DependentUpon>
@@ -319,9 +326,18 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\computer.png" />
+    <Content Include="Content\Images\doctor_clipboard.png" />
     <Content Include="Content\Images\EHR_illustration.jpg" />
+    <Content Include="Content\Images\EHR_illustration2.png" />
     <Content Include="Content\Images\EHR_Patient.jpg" />
     <Content Include="Content\Images\EHR_Staff.png" />
+    <Content Include="Content\Images\fitbitlogo.png" />
+    <Content Include="Content\Images\Medicine.jpg" />
+    <Content Include="Content\Images\notepad.png" />
+    <Content Include="Content\Images\prescription_bottle.png" />
+    <Content Include="Content\Images\rx.png" />
+    <Content Include="Content\SearchBox.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -345,6 +361,18 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Areas\Patient\Views\Shared\FoodLog.cshtml" />
     <Content Include="Areas\Staff\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\History.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\CheckAllergy.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\AddMedicine.cshtml" />
+    <Content Include="Areas\Staff\Views\Home\CheckAllergy.cshtml" />
+    <Content Include="Areas\Staff\Views\Home\CheckVerification.cshtml" />
+    <Content Include="Areas\Staff\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Staff\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Staff\Views\Ehr\Index.cshtml" />
+    <Content Include="Areas\Staff\Views\Ehr\SearchResultsPartialView.cshtml" />
+    <Content Include="Areas\Staff\Views\Ehr\Details.cshtml" />
+    <Content Include="Areas\Patient\Views\Home\CheckVerification.cshtml" />
+    <Content Include="Areas\Staff\Views\Home\Details.cshtml" />
     <None Include="Properties\PublishProfiles\Ehrgo.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
@@ -354,6 +382,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -397,12 +427,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_MedicationHistory.cshtml" />
+    <Content Include="Views\Shared\MedicationTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Staff\Views\Ehr\" />
     <Folder Include="Areas\Staff\Views\Register\" />
-    <Folder Include="Areas\Staff\Views\Shared\" />
     <Folder Include="Areas\Staff\Views\StaffBase\" />
     <Folder Include="Views\AuthorizationBase\" />
   </ItemGroup>

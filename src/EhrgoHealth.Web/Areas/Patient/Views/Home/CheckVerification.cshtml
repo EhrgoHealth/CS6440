@@ -1,0 +1,27 @@
+﻿@model EhrgoHealth.Web.Areas.Patient.Models.Medicine
+
+@{
+    ViewBag.Title = "Check For Medication Allergy";
+}
+
+@if (Model.Found)
+{
+    <h1>WARNING USING @Html.Raw(Model.Name)!</h1>
+    <p>You are allergic to this medication based off past history. Please consult with your doctor before consuming!</p>
+}
+else
+{
+    <h1>PASS!</h1>
+    <p>There is no matching record for <b>@Html.Raw(Model.Name)</b> in the FHIR database! </p>
+
+    using (Html.BeginForm("AddMedicine", "Home"))
+    {
+        <input type="text" name="Name" value="@Html.Raw(Model.Name.ToUpper())" readonly="readonly" />
+        <input type="submit" value="Add Medicine to Patient List" />
+    }
+
+}
+
+<p>
+    <a class="btn btn-default" @Html.ActionLink("Go back to Check Medicine Allergies", "CheckAllergy", "Home") </a>
+</p>

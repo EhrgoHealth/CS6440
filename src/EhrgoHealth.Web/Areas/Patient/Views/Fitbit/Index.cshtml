@@ -13,9 +13,6 @@
 {
     <p class="@Model.ToastClass" style="padding:15px">@Model.ToastText</p>
 }
-else
-{
-
+@{
     Html.RenderPartial("FoodLog", Model.FoodLog);
-
 }

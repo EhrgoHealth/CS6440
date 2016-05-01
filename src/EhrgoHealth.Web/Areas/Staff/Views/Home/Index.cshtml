@@ -3,26 +3,46 @@
     ViewBag.Title = "Provider";
 }
 
-<div class="jumbotron">
-    <h1><font color="#4863A0"><i>Ehrgo</i> Health</font></h1>
+<style>
+    .jumbotron {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        color: inherit;
+        background-color: #1186C3;
+    }
+</style>
 
+<div class="jumbotron">
+    <h1 style="text-align:center"><font color="#FFFFFF">Ehrgo Health</font></h1>
+    <h2 style="text-align:center"><font color="#FFFFFF">Provider Portal</font></h2>
     <p class="lead">@ViewBag.Message</p>
 </div>
 
 <p>
-    <h4><i> Ehrgo Health enables medical providers to consume data directly from the patient-maintained system </i></h4>
+    <h4 style="text-align:center"><i> Ehrgo Health enables medical providers to consume data directly from the patient-maintained system </i></h4>
 </p>
+<br />
 <div class="row">
     <div class="col-md-4">
-        <img src="~/Content/Images/EHR_illustration.jpg" width="300" height="250" />
+        <img src="~/Content/Images/doctor_clipboard.png" />
     </div>
-    <div class="col-md-8">
-        <h2>Update/Check Plan</h2>
+    <div class="col-md-4">
+        <h2><img src="~/Content/Images/computer.png" />&nbsp;Update/Check Plan</h2>
         <p>
             Check new treatment plan against patient data
         </p>
         <p>
-            <a class="btn btn-default" @Html.ActionLink("Goto Treatment Verifier", "Provider", "Home") </a>
+            @Html.ActionLink("Check Medication", "CheckAllergy", "Home", null, new { @Class = "btn btn-default" })
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2><img src="~/Content/Images/prescription_bottle.png" />&nbsp;EHR</h2>
+        <p>
+            Assign a patient medications
+        </p>
+        <p>
+            @Html.ActionLink("Goto Ehr", "Index", "Ehr", null, new { @Class = "btn btn-default" })
         </p>
     </div>
 </div>

@@ -12,7 +12,6 @@ namespace EhrgoHealth.Web.Areas.Staff.Models
     {
         public Hl7.Fhir.Model.Patient Patient { get; set; }
 
-        //this is a list because we want duplicates of unique items (multiple orders for the same medication)
-        public virtual IList<MedicationOrder> MedicationOrder { get; set; }
+        public virtual ICollection<Medication> Medications { get; set; }
     }
 }

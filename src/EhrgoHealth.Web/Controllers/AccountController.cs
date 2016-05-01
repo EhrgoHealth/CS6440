@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using EhrgoHealth.Web.Models;
+﻿using EhrgoHealth.Web.Models;
 using EhrgoHealth.Web.MVCActionResults;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EhrgoHealth.Web.Controllers
 {
@@ -278,11 +278,15 @@ namespace EhrgoHealth.Web.Controllers
                 .Where(a => a.Type.StartsWith("accessToken:", System.StringComparison.OrdinalIgnoreCase))
                 .ForEach(a =>
                 {
-                    currentUser
+                    var claims = currentUser
                                 .Claims
                                 .Where(b => b.ClaimType.Equals(a.Type, StringComparison.OrdinalIgnoreCase))
-                                //todo make async
-                                .Select(b => UserManager.RemoveClaim(currentUser.Id, new Claim(b.ClaimType, b.ClaimValue)));
+                                .ToList();
+                    for(int i = 0; i < claims.Count; i++)
+                    {
+                        //for and not foreach since it will modify the claims ienumerable
+                        UserManager.RemoveClaim(currentUser.Id, new Claim(claims[i].ClaimType, claims[i].ClaimValue));
+                    }
                     UserManager.AddClaim(currentUser.Id, new Claim(a.Type, a.Value));
                 });
             }

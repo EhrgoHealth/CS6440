@@ -10,6 +10,6 @@ namespace EhrgoHealth.Web.Areas.Patient.Models
     {
         public string ToastText { get; set; }
         public string ToastClass { get; set; }
-        public ICollection<FoodLog> FoodLog { get; set; }
+        public ICollection<FoodLog> FoodLog { get; set; } = new HashSet<FoodLog>();
     }
 }
