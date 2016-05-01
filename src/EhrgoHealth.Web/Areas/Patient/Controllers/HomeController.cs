@@ -97,14 +97,19 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
             using(var dbcontext = new ApplicationDbContext())
             {
                 var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
-                AddAllergyData ald = new AddAllergyData(userManager, null);
+                AddAllergyData ald = new AddAllergyData(userManager, authManager);
                 var ls = await ald.GetAllergyList(user.Id);
 
-                if(ls.Contains(all.MedicationName))
+                if (all != null)
                 {
-                    ls.Add(all.MedicationName);
-                    await ald.AddAllergyToMedication(user.FhirPatientId, all.MedicationName);
+                    if (ls.Contains(all.MedicationName))
+                    {
+                        ls.Add(all.MedicationName);
+                        await ald.AddAllergyToMedication(user.FhirPatientId, all.MedicationName);
+                    }
                 }
+                else
+                    all = new Allergy();
 
                 all.AllAllergies = ls.AsEnumerable();
 
