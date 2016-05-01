@@ -103,7 +103,7 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
                 if(ls.Contains(all.MedicationName))
                 {
                     ls.Add(all.MedicationName);
-                    ald.AddAllergyToMedication(user.FhirPatientId, all.MedicationName);
+                    await ald.AddAllergyToMedication(user.FhirPatientId, all.MedicationName);
                 }
 
                 all.AllAllergies = ls.AsEnumerable();
