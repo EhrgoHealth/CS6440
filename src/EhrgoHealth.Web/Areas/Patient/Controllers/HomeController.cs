@@ -7,6 +7,9 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+
+using Microsoft.Owin.Security;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,6 +85,31 @@ namespace EhrgoHealth.Web.Areas.Patient.Controllers
         {
             EhrBase.AddMedicationOrder(User.Identity.GetUserId(), med.Name);
             return View(med);
+        }
+
+        public ActionResult AddAllergy()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> AllergyHistory(Allergy all)
+        {
+            using(var dbcontext = new ApplicationDbContext())
+            {
+                var user = dbcontext.Users.FirstOrDefault(a => a.Email == this.User.Identity.Name);
+                AddAllergyData ald = new AddAllergyData(userManager, null);
+                var ls = await ald.GetAllergyList(user.Id);
+
+                if(ls.Contains(all.MedicationName))
+                {
+                    ls.Add(all.MedicationName);
+                    await ald.AddAllergyToMedication(user.FhirPatientId, all.MedicationName);
+                }
+
+                all.AllAllergies = ls.AsEnumerable();
+
+                return View(all);
+            }
         }
     }
 }

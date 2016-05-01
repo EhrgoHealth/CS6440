@@ -1,0 +1,16 @@
+﻿@model IEnumerable<string>
+
+<table class="table allergyTable">
+    <tr>
+        <th>Allergic Medications</th>
+    </tr>
+
+    @foreach(var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ToString()
+            </td>
+        </tr>
+    }
+</table>
